@@ -10,13 +10,13 @@
         sequi, qui blanditiis provident ipsa quia.
       </p>
       <div class="lower">
-        <div class="rating">
-          <span>TMDB Rating</span>
+        <div class="info">
+          <span class="info-title">User Rating</span>
           <p>{{ rating }}</p>
         </div>
-        <div class="rating">
-          <span>User Rating</span>
-          <p>8.5</p>
+        <div class="info">
+          <span class="info-title">Duration</span>
+          <p>{{ duration }} <span>min</span></p>
         </div>
       </div>
       <base-btn className="outline">Book</base-btn>
@@ -28,7 +28,7 @@
 import BaseBtn from "../base/BaseBtn.vue";
 export default {
   components: { BaseBtn },
-  props: ["title", "url", "rating"],
+  props: ["title", "url", "rating", 'startDate', 'endDate', 'duration'],
 };
 </script>
 
@@ -105,7 +105,7 @@ button {
   margin: auto;
 }
 
-.rating {
+.info {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -114,8 +114,17 @@ button {
   font-size: 1.3rem;
 }
 
-.rating:first-child {
+.info:first-child {
   border-right: 1px solid rgb(209, 209, 209);
+}
+
+.info-title {
+  margin-bottom: 0.5rem;
+}
+
+.dates {
+  font-size: 0.7rem;
+  font-weight: 700;
 }
 
 span {

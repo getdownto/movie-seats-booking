@@ -1,15 +1,18 @@
 <template>
   <main-header></main-header>
   <router-view></router-view>
+  <footer-el></footer-el>
 </template>
 
 <script>
+import FooterEl from './components/layout/FooterEl.vue'
 import MainHeader from './components/layout/MainHeader.vue'
 
 export default {
   name: 'App',
   components: {
-    MainHeader
+    MainHeader,
+    FooterEl
 
   }
 }
@@ -17,6 +20,7 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+@import url("https://use.fontawesome.com/releases/v5.13.0/css/all.css");
 
 * {
   box-sizing: border-box;
