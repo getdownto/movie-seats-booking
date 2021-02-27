@@ -13,7 +13,6 @@
                     v-for="(month, index) in months"
                     :key="month"
                     :value="index"
-                    
                 >
                     {{ month }}
                 </option>
@@ -24,7 +23,7 @@
                 <option
                     v-for="i in numberofYears"
                     :key="i"
-                    :value="startingYear + (i - 1)"    
+                    :value="startingYear + (i - 1)"
                 >
                     {{ startingYear + (i - 1) }}
                 </option>
@@ -106,10 +105,11 @@
 <style scoped>
     /* wrapper-div for including arrow */
     .custom-select {
-        background-color: #eee;
+        background-color: transparent;
         float: left;
         margin-right: 10px;
         position: relative;
+        border: 2px solid #414141;
     }
 
     .custom-select select {
@@ -118,13 +118,17 @@
         appearance: none; /* remove default styling */
         background-color: inherit;
         border: none;
-        color: #333;
+        color: rgb(218, 218, 218);
         display: block;
         font-size: 16px;
         height: 32px;
         padding: 5px 30px 5px 10px;
         margin: 0;
         outline: none;
+    }
+
+    option {
+        color: #333;
     }
 
     /* drop arrow */

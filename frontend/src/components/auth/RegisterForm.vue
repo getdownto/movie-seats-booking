@@ -1,18 +1,18 @@
 <template>
-    <div class="form-container">
+    <div class="form-container" @submit.prevent="submitForm">
         <h2>Register</h2>
         <p>Welcome to Book a Seat</p>
         <form>
             <div class="field-container">
-                <input type="text" placeholder="Username" />
+                <input type="text" placeholder="Username" v-model="username" />
                 <label for="username">Username</label>
             </div>
             <div class="field-container">
-                <input type="text" placeholder="Password" />
+                <input type="text" placeholder="Password" v-model="password"/>
                 <label for="password">Password</label>
             </div>
             <div class="field-container">
-                <input type="text" placeholder="Repeat password" />
+                <input type="text" placeholder="Repeat password" v-model="repeatPassword" />
                 <label for="password">Repeat password</label>
             </div>
             <base-btn>Register</base-btn>
@@ -25,7 +25,27 @@
 </template>
 
 <script>
-    export default {};
+    import userService from "../../services/user-service";
+    export default {
+        data() {
+            return {
+                username: '',
+                password: '',
+                repeatPassword: ''
+            }
+        },
+        methods: {
+            submitForm() {
+                //TO DO: add form validation
+                userService.register(this.username, this.password).then(() => {
+                    this.$router.push('/login')
+                })
+            }
+        },
+        mounted() {
+
+        }
+    };
 </script>
 
 <style scoped>

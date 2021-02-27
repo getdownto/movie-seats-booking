@@ -3,13 +3,10 @@
 </template>
 
 <script>
-import RegisterForm from '../components/auth/RegisterForm.vue'
+    import RegisterForm from "../components/auth/RegisterForm.vue";
     export default {
-  components: { RegisterForm },
-
-    }
+        components: { RegisterForm },
+    };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

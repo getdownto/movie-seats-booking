@@ -2,13 +2,13 @@
     <div class="form-container">
         <h2>Login</h2>
         <p>Welcome to Book a Seat</p>
-        <form>
+        <form @submit.prevent="submitForm">
             <div class="field-container">
-                <input type="text" placeholder="Username" />
+                <input type="text" placeholder="Username" v-model="username" />
                 <label for="username">Username</label>
             </div>
             <div class="field-container">
-                <input type="text" placeholder="Password" />
+                <input type="text" placeholder="Password" v-model="password" />
                 <label for="password">Password</label>
             </div>
             <base-btn>Login</base-btn>
@@ -21,7 +21,28 @@
 </template>
 
 <script>
-    export default {};
+    import userService from "../../services/user-service";
+    export default {
+        data() {
+            return {
+                username: "",
+                password: "",
+            };
+        },
+        methods: {
+            submitForm() {
+                //TO DO: add form validation
+                userService.login(this.username, this.password).then((user) => {
+                    if (user !== 'Invalid username or password') {
+                        //TO DO: set isLogged to true in state
+                        this.$router.push('/')
+                    } else {
+                        //TO DO: set isLogged to false in state
+                    }
+                });
+            },
+        },
+    };
 </script>
 
 <style scoped>
