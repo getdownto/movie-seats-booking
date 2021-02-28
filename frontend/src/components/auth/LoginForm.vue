@@ -27,20 +27,26 @@
             return {
                 username: "",
                 password: "",
+                errors: []
             };
         },
         methods: {
             submitForm() {
                 //TO DO: add form validation
                 userService.login(this.username, this.password).then((user) => {
-                    if (user !== 'Invalid username or password') {
+                    if (user !== "Invalid username or password") {
                         //TO DO: set isLogged to true in state
-                        this.$router.push('/')
+                        this.$router.push("/");
                     } else {
                         //TO DO: set isLogged to false in state
                     }
                 });
             },
+            validateForm() {
+                if (this.username === '') {
+                    this.errors.push['Username is required!']
+                } 
+            }
         },
     };
 </script>
@@ -94,8 +100,18 @@
         border-bottom: 2px solid #e95d6b;
     }
 
-    input:focus:invalid {
-        border-bottom: 3px solid #e00202;
+    .invalid,
+    input:focus.invalid {
+        border-bottom: 3px solid #ad033c;
+        color: #ad033c;
+    }
+
+    .invalid + label {
+        color: #ad033c;
+    }
+
+    input::placeholder {
+        color: rgba(228, 228, 228, 0.603);
     }
 
     input:placeholder-shown + label {
@@ -108,7 +124,7 @@
         display: block;
         font-size: 0.85rem;
         padding: 0.5rem;
-        color: rgba(161, 161, 161, 0.603);
+        color: rgba(228, 228, 228, 0.603);
         transition: all 0.3s;
         transform: translateY(-4rem);
     }

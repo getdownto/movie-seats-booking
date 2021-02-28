@@ -1,19 +1,51 @@
 <template>
-    <div class="form-container" @submit.prevent="submitForm">
+    <div class="form-container" @submit.prevent="validateForm">
         <h2>Register</h2>
         <p>Welcome to Book a Seat</p>
         <form>
             <div class="field-container">
-                <input type="text" placeholder="Username" v-model="username" />
+                <input
+                    type="text"
+                    placeholder="Username"
+                    v-model="username"
+                    :class="{ invalid: invalid && errors.username.length > 0 }"
+                    @blur="validateUsername"
+                />
                 <label for="username">Username</label>
+                <p v-if="invalid && errors.username.length > 0" class="error">
+                    {{ errors.username[0] }}
+                </p>
             </div>
             <div class="field-container">
-                <input type="text" placeholder="Password" v-model="password"/>
+                <input
+                    type="text"
+                    placeholder="Password"
+                    v-model="password"
+                    :class="{ invalid: invalid && errors.password.length > 0 }"
+                    @blur="validatePassword"
+                />
                 <label for="password">Password</label>
+                <p v-if="invalid && errors.password.length > 0" class="error">
+                    {{ errors.password[0] }}
+                </p>
             </div>
             <div class="field-container">
-                <input type="text" placeholder="Repeat password" v-model="repeatPassword" />
+                <input
+                    type="text"
+                    placeholder="Repeat password"
+                    v-model="repeatPassword"
+                    :class="{
+                        invalid: invalid && errors.repeatPassword.length > 0,
+                    }"
+                    @blur="validateRepeat"
+                />
                 <label for="password">Repeat password</label>
+                <p
+                    v-if="invalid && errors.repeatPassword.length > 0"
+                    class="error"
+                >
+                    {{ errors.repeatPassword[0] }}
+                </p>
             </div>
             <base-btn>Register</base-btn>
             <router-link to="/login"
@@ -26,25 +58,80 @@
 
 <script>
     import userService from "../../services/user-service";
+
     export default {
         data() {
             return {
-                username: '',
-                password: '',
-                repeatPassword: ''
-            }
+                username: "",
+                password: "",
+                repeatPassword: "",
+                errors: {
+                    username: [],
+                    password: [],
+                    repeatPassword: [],
+                },
+                invalid: false,
+            };
         },
         methods: {
             submitForm() {
-                //TO DO: add form validation
-                userService.register(this.username, this.password).then(() => {
-                    this.$router.push('/login')
-                })
-            }
-        },
-        mounted() {
+                if (!this.invalid) {
+                    userService
+                        .register(this.username, this.password)
+                        .then(() => {
+                            this.$router.push("/login");
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+            },
+            validateUsername() {
+                this.invalid = false;
+                this.errors.username = [];
+                if (this.username === "") {
+                    this.errors["username"].push("Username is required!");
+                    this.invalid = true;
+                }
+            },
+            validatePassword() {
+                this.invalid = false;
+                this.errors.password = [];
+                if (this.password === "") {
+                    this.errors["password"].push("Password is required!");
+                    this.invalid = true;
+                }
+                if (this.password.length < 3) {
+                    this.errors["password"].push(
+                        "Password should be at least 3 characters long!"
+                    );
+                    this.invalid = true;
+                }
+            },
+            validateRepeat() {
+                this.invalid = false;
+                this.errors.repeatPassword = [];
 
-        }
+                if (this.repeatPassword === "") {
+                    this.errors["repeatPassword"].push("Password is required!");
+                    this.invalid = true;
+                }
+                if (this.password !== this.repeatPassword) {
+                    this.errors["repeatPassword"].push(
+                        "Passwords don't match!"
+                    );
+                    this.invalid = true;
+                }
+            },
+            validateForm() {
+                this.invalid = false;
+                this.validateUsername()
+                this.validatePassword()
+                this.validateRepeat()
+                this.submitForm();
+            },
+        },
+        mounted() {},
     };
 </script>
 
@@ -101,6 +188,10 @@
         border-bottom: 3px solid #e00202;
     }
 
+    input::placeholder {
+        color: rgba(228, 228, 228, 0.603);
+    }
+
     input:placeholder-shown + label {
         opacity: 0;
         visibility: hidden;
@@ -111,7 +202,7 @@
         display: block;
         font-size: 0.85rem;
         padding: 0.5rem;
-        color: rgba(161, 161, 161, 0.603);
+        color: rgba(228, 228, 228, 0.603);
         transition: all 0.3s;
         transform: translateY(-4rem);
     }
@@ -127,5 +218,22 @@
     span {
         color: #e95d6b;
         margin-left: 0.3rem;
+    }
+
+    .invalid,
+    input:focus.invalid {
+        border-bottom: 3px solid #ad033c;
+        color: #ad033c;
+    }
+
+    .invalid + label {
+        color: #ad033c;
+    }
+
+    .error {
+        color: #ad033c;
+        font-style: italic;
+        font-size: 0.8rem;
+        margin-top: -1.5rem;
     }
 </style>
