@@ -1,17 +1,22 @@
 <template>
     <div class="card">
-        <div class="rating">9.7</div>
+        <div class="rating">{{rating}}</div>
         <div class="image">
-            <img src="https://image.freepik.com/free-vector/abstract-poster-template-with-elegant-landscape_1361-2207.jpg" alt="movie">
+            <img :src="image" alt="movie">
         </div>
-        <h3>Movie Title</h3>
-        <p class="genre">Comedy, Romance</p>
+        <h3>{{title}}</h3>
+        <p class="genre">{{allGenre}}</p>
     </div>
 </template>
 
 <script>
     export default {
-
+        props: ['title', 'image', 'rating', 'genre'],
+        computed: {
+            allGenre() {
+                return this.genre.join(', ')
+            }
+        }
     }
 </script>
 
@@ -54,5 +59,9 @@
          top: -15px;
          left: 50%;
          transform: translate(-50%, 0);
+     }
+
+     .genre {
+         text-transform: capitalize;
      }
 </style>

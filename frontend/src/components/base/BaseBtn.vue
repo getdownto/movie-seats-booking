@@ -66,10 +66,23 @@ button:active {
   transition: all 0.3s ease;
 }
 
+.outline-blue {
+  background-color: transparent;
+  border-color:  rgb(37, 166, 218);
+  color: rgb(37, 166, 218);
+  transition: all 0.3s ease;
+}
+
+.outline-blue:hover {
+color: rgb(37, 166, 218);
+}
+
 .flat:hover,
 .flat:active,
 .outline:hover,
-.outline:active {
+.outline:active,
+.outline-blue:hover,
+.outline-blue:active {
   transform: scale(0.95);
 }
 </style>

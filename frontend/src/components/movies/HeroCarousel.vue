@@ -42,7 +42,7 @@
 <script>
     const paginationFactor = (window.innerWidth * 0.77) / 5;
     import CarouselCart from "./CarouselCart.vue";
-    import moment from 'moment'
+    import moment from "moment";
     export default {
         components: { CarouselCart },
         data() {
@@ -51,7 +51,7 @@
                 windowSize: 5,
                 paginationFactor: paginationFactor,
                 items: null,
-                loading: false
+                loading: false,
             };
         },
         computed: {
@@ -77,20 +77,28 @@
                 }
             },
             getMovies() {
-                this.loading = true
-                const start = moment()
-                const end = moment(start).add(7, 'days')
+                this.loading = true;
+                const start = moment();
+                const end = moment(start).add(7, "days");
                 fetch("http://localhost:9999/api/movie/").then((res) => {
-                    res.json().then(data => {
-                        this.loading = false
-                        this.items = data.filter(d => moment(d.startDate).isBetween(start, end) || moment(d.endDate).isBetween(start, end) || moment(d.startDate).isSame(start) || moment(d.endDate).isSame(end))
-                        console.log(data);
-                    })
+                    res.json().then((data) => {
+                        this.loading = false;
+                        const thisWeeks = data.filter(
+                            (d) =>
+                                moment(d.startDate).isBetween(start, end) ||
+                                moment(d.endDate).isBetween(start, end) ||
+                                moment(d.startDate).isSame(start) ||
+                                moment(d.endDate).isSame(end) ||
+                                moment(start).isBetween(d.startDate, d.endDate) ||
+                                moment(end).isBetween(d.startDate, d.endDate)
+                        );
+                        this.items = thisWeeks
+                    });
                 });
-            }
+            },
         },
         mounted() {
-            this.getMovies()
+            this.getMovies();
         },
     };
 </script>
@@ -138,68 +146,25 @@
     }
 </style>
 
-// [
-//                     {
-//                         name: "Kin Khao",
-//                         rating: 8.3,
-//                         duration: 90,
-//                         startDate: "17th Feb 2021",
-//                         endDate: "28th Feb 2021",
-//                         url:
-//                             "https://image.freepik.com/free-photo/women-sitting-sofa-staring-while-watching-television_23-2147894375.jpg",
-//                     },
-//                     {
-//                         name: "Jū-Ni",
-//                         rating: 9.2,
-//                         duration: 90,
-//                         startDate: "17th Feb 2021",
-//                         endDate: "28th Feb 2021",
-//                         url:
-//                             "https://image.freepik.com/free-photo/rows-red-seats-theater_53876-64710.jpg",
-//                     },
-//                     {
-//                         name: "Delfina",
-//                         rating: 7.9,
-//                         duration: 90,
-//                         startDate: "17th Feb 2021",
-//                         endDate: "28th Feb 2021",
-//                         url:
-//                             "https://image.freepik.com/free-vector/abstract-poster-template-with-elegant-landscape_1361-2207.jpg",
-//                     },
-//                     {
-//                         name: "San Tung",
-//                         rating: 4.8,
-//                         duration: 90,
-//                         startDate: "17th Feb 2021",
-//                         endDate: "28th Feb 2021",
-//                         url:
-//                             "https://image.freepik.com/free-photo/attractive-young-caucasian-couple-watching-film-movie-theater-house-cinema_155003-19102.jpg",
-//                     },
-//                     {
-//                         name: "Anchor Oyster Bar",
-//                         rating: 7.6,
-//                         duration: 90,
-//                         startDate: "17th Feb 2021",
-//                         endDate: "28th Feb 2021",
-//                         url:
-//                             "https://image.freepik.com/free-photo/front-view-young-female-holding-popcorn-red-desk_140725-66237.jpg",
-//                     },
-//                     {
-//                         name: "Locanda",
-//                         rating: 5.3,
-//                         duration: 90,
-//                         startDate: "17th Feb 2021",
-//                         endDate: "28th Feb 2021",
-//                         url:
-//                             "https://image.freepik.com/free-photo/woman-eating-popcorn-while-watching-movie-laptop_23-2148860647.jpg",
-//                     },
-//                     {
-//                         name: "Garden Creamery",
-//                         rating: 8.7,
-//                         duration: 90,
-//                         startDate: "17th Feb 2021",
-//                         endDate: "28th Feb 2021",
-//                         url:
-//                             "https://image.freepik.com/free-photo/smiling-couple-watching-film-bed_23-2147771152.jpg",
-//                     },
-//                 ],
+// [ // { // name: "Kin Khao", // rating: 8.3, // duration: 90, // startDate:
+"17th Feb 2021", // endDate: "28th Feb 2021", // url: //
+"https://image.freepik.com/free-photo/women-sitting-sofa-staring-while-watching-television_23-2147894375.jpg",
+// }, // { // name: "Jū-Ni", // rating: 9.2, // duration: 90, // startDate:
+"17th Feb 2021", // endDate: "28th Feb 2021", // url: //
+"https://image.freepik.com/free-photo/rows-red-seats-theater_53876-64710.jpg",
+// }, // { // name: "Delfina", // rating: 7.9, // duration: 90, // startDate:
+"17th Feb 2021", // endDate: "28th Feb 2021", // url: //
+"https://image.freepik.com/free-vector/abstract-poster-template-with-elegant-landscape_1361-2207.jpg",
+// }, // { // name: "San Tung", // rating: 4.8, // duration: 90, // startDate:
+"17th Feb 2021", // endDate: "28th Feb 2021", // url: //
+"https://image.freepik.com/free-photo/attractive-young-caucasian-couple-watching-film-movie-theater-house-cinema_155003-19102.jpg",
+// }, // { // name: "Anchor Oyster Bar", // rating: 7.6, // duration: 90, //
+startDate: "17th Feb 2021", // endDate: "28th Feb 2021", // url: //
+"https://image.freepik.com/free-photo/front-view-young-female-holding-popcorn-red-desk_140725-66237.jpg",
+// }, // { // name: "Locanda", // rating: 5.3, // duration: 90, // startDate:
+"17th Feb 2021", // endDate: "28th Feb 2021", // url: //
+"https://image.freepik.com/free-photo/woman-eating-popcorn-while-watching-movie-laptop_23-2148860647.jpg",
+// }, // { // name: "Garden Creamery", // rating: 8.7, // duration: 90, //
+startDate: "17th Feb 2021", // endDate: "28th Feb 2021", // url: //
+"https://image.freepik.com/free-photo/smiling-couple-watching-film-bed_23-2147771152.jpg",
+// }, // ],

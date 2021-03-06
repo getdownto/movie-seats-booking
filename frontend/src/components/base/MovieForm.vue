@@ -102,6 +102,7 @@
 <script>
     import BaseBtn from "./BaseBtn.vue";
     import DatePicker from "./DatePicker.vue";
+    import movieService from "../../services/movie-service";
     export default {
         components: { DatePicker, BaseBtn },
         data() {
@@ -143,16 +144,14 @@
                     price: this.price,
                 };
 
-                fetch("http://localhost:9999/api/movie/", {
-                    method: "POST",
-                    headers: {
-                        // "Access-Control-Allow-Origin": "*",
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(newMovie),
-                    credentials: "include",
-                }).then((res) => console.log(res));
+                movieService
+                    .create(newMovie)
+                    .then(() => {
+                        this.$router.push("/");
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             },
         },
     };

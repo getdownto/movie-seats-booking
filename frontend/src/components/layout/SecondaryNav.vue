@@ -2,24 +2,61 @@
     <div class="container">
         <h2>Discover Movies</h2>
         <ul class="filters">
-            <li>Random</li>
-            <li>Popular</li>
-            <li>Recent</li>
+            <li
+                @click="selected('random')"
+                :class="{ active: currentFilter === 'random' }"
+            >
+                Random
+            </li>
+            <li
+                @click="selected('popular')"
+                :class="{ active: currentFilter === 'popular' }"
+            >
+                Popular
+            </li>
+            <li
+                @click="selected('recent')"
+                :class="{ active: currentFilter === 'recent' }"
+            >
+                Recent
+            </li>
         </ul>
-        <div class="search">
-            <input
-                type="text"
-                id="search"
-                class="search"
-                placeholder="Type something here..."
-            />
-            <i class="fas fa-search"></i>
+        <div>
+            <form class="search" @submit.prevent="submitSearch">
+                <input
+                    type="text"
+                    id="search"
+                    class="search"
+                    placeholder="Type something here..."
+                    v-model="search"
+                />
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
         </div>
     </div>
 </template>
 
 <script>
-    export default {};
+    export default {
+        data() {
+            return {
+                currentFilter: "random",
+                search: "",
+            };
+        },
+        methods: {
+            selected(filter) {
+                this.$emit("selected", filter);
+                this.currentFilter = filter;
+                console.log("emitting", filter);
+            },
+            submitSearch() {
+                this.$router.push(`/search?search=${this.search}`)
+            }
+        },
+    };
 </script>
 
 <style scoped>
@@ -57,6 +94,10 @@
         border-bottom: 3px solid #e95d6b;
     }
 
+    .active {
+        border-bottom: 3px solid #e95d6b;
+    }
+
     .search {
         display: flex;
     }
@@ -75,9 +116,11 @@
         background-color: #22315e;
     }
 
-    i {
+    .search-btn {
         font-size: 0.9rem;
         background-color: #e95d6b;
         padding: 0.5rem;
+        outline: none;
+        border: none;
     }
 </style>
