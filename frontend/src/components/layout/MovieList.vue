@@ -21,6 +21,10 @@
             filter: {
                 type: String,
                 required: false,
+            },
+            search: {
+                type: String,
+                required: false,
             }
         },
         data() {
@@ -36,6 +40,11 @@
                 // watch it
                 console.log("Prop changed: ", newVal, " | was: ", oldVal);
                 this.filterMovies();
+            },
+            search: function(newVal, oldVal) {
+                // watch it
+                console.log("Prop changed: ", newVal, " | was: ", oldVal);
+                this.searchMovies(this.search);
             }
         },
         methods: {
@@ -68,12 +77,11 @@
                     // Get sub-array of first n elements after shuffled
                     this.filteredMovies = shuffled.slice(0, 10);
                 } else {
-                    this.searchMovies()
+                    this.searchMovies(this.$route.query.search || '')
                 }
             },
-            searchMovies() {
-                const serachTerm = this.$route.query.search
-                this.filteredMovies = this.movies.filter(m => m.title.toLowerCase().includes(serachTerm.toLowerCase()))
+            searchMovies(search) {
+                this.filteredMovies = this.movies.filter(m => m.title.toLowerCase().includes(search.toLowerCase()))
             }
         },
         mounted() {

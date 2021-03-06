@@ -27,7 +27,7 @@
         <secondary-nav @selected="setFilter"></secondary-nav>
         <movie-list :filter="filter()"></movie-list>
         <div class="center-btn">
-            <base-btn
+            <base-btn link to="/all"
                 >see all <i class="fas fa-arrow-right"></i
             ></base-btn>
         </div>

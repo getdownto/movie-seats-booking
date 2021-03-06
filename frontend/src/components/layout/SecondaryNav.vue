@@ -53,7 +53,7 @@
                 console.log("emitting", filter);
             },
             submitSearch() {
-                this.$router.push(`/search?search=${this.search}`)
+                this.$router.push(`/all?search=${this.search}`)
             }
         },
     };
