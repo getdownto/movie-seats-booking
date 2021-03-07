@@ -3,7 +3,7 @@ const movieService = {
         return fetch('http://localhost:9999/api/movie').then(res => res.json())
     },
     details: function(id) {
-        return fetch(`http://localhost:9999/api/travel/${id}`).then(res => res.json())
+        return fetch(`http://localhost:9999/api/movie/${id}`).then(res => res.json())
     },
     create: function(newMovie) {
         return fetch('http://localhost:9999/api/movie/', {
@@ -20,7 +20,7 @@ const movieService = {
         }).then(res => res.text())
     },
     update: function(id, destination, price, imageUrl, startDate, duration, description, additionalTrips) {
-        return fetch(`http://localhost:9999/api/travel/${id}`, {
+        return fetch(`http://localhost:9999/api/movie/${id}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',

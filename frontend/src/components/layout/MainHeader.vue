@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="logo">Book a seat</div>
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><router-link to="/">Home</router-link></li>
                     <li><a href="#">On Screen</a></li>
                     <li><a href="#">Popular</a></li>
                     <li><a href="#">Coming Soon</a></li>

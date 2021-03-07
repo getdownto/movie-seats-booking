@@ -25,6 +25,7 @@
                         :startDate="item.startDate"
                         :endDate="item.endDate"
                         :duration="item.duration"
+                        :shortDescription="item.shortDescription"
                     ></carousel-cart>
                 </div>
             </div>

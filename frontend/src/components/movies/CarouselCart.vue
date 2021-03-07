@@ -6,8 +6,7 @@
     <div class="additional">
       <h3>{{ title }}</h3>
       <p class="overview">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum aut
-        sequi, qui blanditiis provident ipsa quia.
+        {{ shortDescription }}
       </p>
       <div class="lower">
         <div class="info">
@@ -28,7 +27,7 @@
 import BaseBtn from "../base/BaseBtn.vue";
 export default {
   components: { BaseBtn },
-  props: ["title", "url", "rating", 'startDate', 'endDate', 'duration'],
+  props: ["title", "url", "rating", 'startDate', 'endDate', 'duration', 'shortDescription'],
 };
 </script>
 

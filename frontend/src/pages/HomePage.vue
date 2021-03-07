@@ -1,6 +1,8 @@
 <template>
-    <h2>On Screen This Week</h2>
-    <hero-carousel></hero-carousel>
+    <section class="hero-section">
+        <h2>On Screen This Week</h2>
+        <hero-carousel></hero-carousel>
+    </section>
     <section class="welcome">
         <h3>Your best-ever movie experience is only threee steps away.</h3>
         <div class="icons-container">
@@ -18,7 +20,7 @@
             </div>
         </div>
         <div class="center-btn">
-            <base-btn class="outline-blue"
+            <base-btn class="outline-blue" link to="/all"
                 >Discover Movies <i class="fas fa-arrow-right"></i
             ></base-btn>
         </div>
@@ -42,7 +44,7 @@
         components: { HeroCarousel, SecondaryNav, MovieList },
         data() {
             return {
-                selectedFilter: 'random',
+                selectedFilter: "random",
             };
         },
         computed: {},
@@ -59,12 +61,19 @@
 </script>
 
 <style scoped>
+    /* .hero-section {
+        background: linear-gradient(#0e193ae7, #0e193adc), url(https://image.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg) no-repeat bottom;
+        background-size: cover;
+    } */
+
     h2 {
-        font-size: 2.2rem;
+        font-size: 2rem;
         color: #e95d6b;
         font-weight: 100;
         text-align: center;
-        margin-top: 2rem;
+        padding-top: 2rem;
+        text-transform: uppercase;
+        font-weight: 400;
     }
 
     .movies-list {

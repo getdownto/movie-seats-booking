@@ -65,7 +65,7 @@
         justify-content: space-between;
         align-items: center;
         color: #d8ddf0;
-        max-width: 88%;
+        max-width: 84%;
         margin: auto;
     }
 

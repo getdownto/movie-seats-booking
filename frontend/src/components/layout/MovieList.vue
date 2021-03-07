@@ -7,6 +7,7 @@
             :image="movie.imageUrl"
             :rating="movie.rating"
             :genre="movie.genre"
+            :id="movie._id"
         ></movie-cart>
     </div>
 </template>
@@ -81,7 +82,7 @@
                 }
             },
             searchMovies(search) {
-                this.filteredMovies = this.movies.filter(m => m.title.toLowerCase().includes(search.toLowerCase()))
+                this.filteredMovies = this.movies.filter(m => m.title.toLowerCase().includes(search.toLowerCase()) || m.genre.map(g => g.toLowerCase()).includes(search.toLowerCase()))
             }
         },
         mounted() {
@@ -97,7 +98,7 @@
     .main-container {
         display: flex;
         flex-wrap: wrap;
-        max-width: 90%;
+        max-width: 85%;
         margin: 1rem auto;
     }
 </style>
