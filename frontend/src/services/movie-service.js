@@ -39,6 +39,20 @@ const movieService = {
             credentials: 'include'
         }).then(res => res.text())
     },
+    rate: function(id, rating) {
+        return fetch(`http://localhost:9999/api/movie/rate/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+
+            },
+            body: JSON.stringify({
+                rating
+            }),
+            credentials: 'include'
+        }).then(res => res.text())
+    },
     delete: function(id) {
         return fetch(`http://localhost:9999/api/travel/${id}`, {
             method: 'DELETE',

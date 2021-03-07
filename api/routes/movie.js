@@ -10,6 +10,8 @@ router.post('/', controllers.movie.post);
 
 // router.put('/:id', auth(), controllers.movie.put);
 
+router.put('/rate/:id', auth(), controllers.movie.put.rate);
+
 // router.delete('/:id', auth(), controllers.movie.delete);
 
 module.exports = router;

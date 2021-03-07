@@ -2,26 +2,24 @@
     <div v-if="movie">
         <div class="details-container">
             <div class="details-pic">
-                <img
-                    :src="movie.imageUrl"
-                    :alt="movie.title"
-                />
+                <img :src="movie.imageUrl" :alt="movie.title" />
             </div>
             <div class="details-content">
-                <h2>{{movie.title}}</h2>
+                <h2>{{ movie.title }}</h2>
                 <ul>
-                    <li v-for="item in movie.genre" :key="item">{{item}}</li>
+                    <li v-for="item in movie.genre" :key="item">{{ item }}</li>
                 </ul>
                 <p class="overview">
-                    {{movie.overview}}
+                    {{ movie.overview }}
                 </p>
                 <div class="info">
                     <div class="info-icons">
                         <div class="duration">
-                            <i class="far fa-clock"></i> {{movie.duration}} min
+                            <i class="far fa-clock"></i>
+                            {{ movie.duration }} min
                         </div>
                         <div class="rating">
-                            <i class="far fa-star"></i> {{movie.rating}}/10
+                            <i class="far fa-star"></i> {{ movie.rating }}/10
                         </div>
                     </div>
                     <div class="user-rating" v-if="!rated">
@@ -30,7 +28,12 @@
                             <i
                                 v-for="index in 10"
                                 :key="index"
-                                :class="['fas', 'fa-star', `s${index}`, {active: rated && userRating <= index}]"
+                                :class="[
+                                    'fas',
+                                    'fa-star',
+                                    `s${index}`,
+                                    { active: rated && userRating <= index },
+                                ]"
                                 @click="setRating(index)"
                             ></i>
                         </div>
@@ -52,33 +55,37 @@
             return {
                 userRating: 0,
                 rated: false,
-                movie: null
-            }
+                movie: null,
+            };
         },
         methods: {
             setRating(i) {
-                console.log(i, 'index');
-                this.userRating =  i
-                this.rated = true
+                const id = this.$route.params.id;
+                console.log(i, "index");
+                this.userRating = i;
+                movieService.rate(id, this.rating).then(() => {
+                    this.rated = true;
+                    this.getMovieData()
+                });
             },
             getMovieData() {
-                const id = this.$route.params.id
+                const id = this.$route.params.id;
                 movieService.details(id).then((movie) => {
                     this.movie = movie;
                 });
-            }
+            },
         },
         computed: {
             rating() {
-                return 11 - this.userRating
-            }
+                return 11 - this.userRating;
+            },
         },
         mounted() {
-            this.getMovieData()
+            this.getMovieData();
         },
         updated() {
             console.log(this.rating);
-        }
+        },
     };
 </script>
 
