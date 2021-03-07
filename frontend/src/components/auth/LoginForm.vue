@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import userService from "../../services/user-service";
+    //import userService from "../../services/user-service";
     export default {
         data() {
             return {
@@ -31,21 +31,19 @@
             };
         },
         methods: {
-            submitForm() {
+            async submitForm() {
                 //TO DO: add form validation
-                userService.login(this.username, this.password).then((user) => {
-                    if (user !== "Invalid username or password") {
-                        //TO DO: set isLogged to true in state
-                        this.$router.push("/");
-                    } else {
-                        //TO DO: set isLogged to false in state
-                    }
-                });
+                await this.$store.dispatch('login', {
+                        username: this.username,
+                        password: this.password
+                    })
+                    this.isLoading = false
+                    this.$router.replace('/')
             },
             validateForm() {
                 if (this.username === '') {
                     this.errors.push['Username is required!']
-                } 
+                }
             }
         },
     };

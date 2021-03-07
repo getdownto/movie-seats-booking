@@ -9,7 +9,8 @@
                     <li><a href="#">Popular</a></li>
                     <li><a href="#">Coming Soon</a></li>
                 </ul>
-                <base-btn link to="/login">Login</base-btn>
+                <base-btn link to="/login" v-if="!isAuth">Login</base-btn>
+                <router-link to="/" v-else><i class="far fa-user-circle"></i> Profile</router-link>
             </div>
         </nav>
     </header>
@@ -17,8 +18,13 @@
 
 <script>
     export default {
-
-    }
+        computed: {
+            isAuth() {
+                return this.$store.getters.isLoggedIn;
+            },
+        },
+        methods: {},
+    };
 </script>
 
 <style scoped>
@@ -53,7 +59,7 @@
     }
 
     li a {
-        color:#d8ddf0;
+        color: #d8ddf0;
         list-style: none;
         text-decoration: none;
         padding: 2.2rem 0;
@@ -63,6 +69,16 @@
 
     li a:hover {
         border-bottom: 3px solid #e95d6b;
+    }
+
+    a {
+        color: #d8ddf0;
+        list-style: none;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #e95d6b;
     }
 
 </style>

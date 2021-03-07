@@ -22,23 +22,31 @@
                             <i class="far fa-star"></i> {{ movie.rating }}/10
                         </div>
                     </div>
-                    <div class="user-rating" v-if="!rated">
-                        <p>Rate this movie:</p>
-                        <div class="star">
-                            <i
-                                v-for="index in 10"
-                                :key="index"
-                                :class="[
-                                    'fas',
-                                    'fa-star',
-                                    `s${index}`,
-                                    { active: rated && userRating <= index },
-                                ]"
-                                @click="setRating(index)"
-                            ></i>
+                    <div v-if="!alreadyRated">
+                        <div class="user-rating" v-if="!rated">
+                            <p>Rate this movie:</p>
+                            <div class="star">
+                                <i
+                                    v-for="index in 10"
+                                    :key="index"
+                                    :class="[
+                                        'fas',
+                                        'fa-star',
+                                        `s${index}`,
+                                        {
+                                            active:
+                                                rated && userRating <= index,
+                                        },
+                                    ]"
+                                    @click="setRating(index)"
+                                ></i>
+                            </div>
                         </div>
+                        <!-- <p v-else class="thank-you">Thank you for your vote!</p> -->
                     </div>
-                    <p v-else class="thank-you">Thank you for your vote!</p>
+                    <p v-else class="thank-you">
+                        {{message}}
+                    </p>
                 </div>
                 <base-btn>Book a seat</base-btn>
             </div>
@@ -56,7 +64,15 @@
                 userRating: 0,
                 rated: false,
                 movie: null,
+                alreadyRated: false,
             };
+        },
+        watch: {
+            movie: function(newVal, oldVal) {
+                // watch it
+                console.log("Prop changed: ", newVal, " | was: ", oldVal);
+                this.getRating();
+            },
         },
         methods: {
             setRating(i) {
@@ -65,8 +81,18 @@
                 this.userRating = i;
                 movieService.rate(id, this.rating).then(() => {
                     this.rated = true;
-                    this.getMovieData()
+                    this.getMovieData();
                 });
+            },
+            getRating() {
+                const userId = this.$store.getters.userId;
+                if (this.movie) {
+                    this.alreadyRated = this.movie.participants
+                        .map((p) => p._id)
+                        .includes(userId);
+                    console.log(this.alreadyRated, "in method");
+                    console.log(userId);
+                }
             },
             getMovieData() {
                 const id = this.$route.params.id;
@@ -79,12 +105,22 @@
             rating() {
                 return 11 - this.userRating;
             },
+            message() {
+                if(this.rated) {
+                    return 'Thank you for your vote!'
+                } else {
+                    return 'You have already rated this movie.'
+                }
+            }
         },
         mounted() {
             this.getMovieData();
+            this.getRating();
+            console.log(this.$store.getters.userId);
         },
         updated() {
             console.log(this.rating);
+            console.log(this.alreadyRated, "already");
         },
     };
 </script>
