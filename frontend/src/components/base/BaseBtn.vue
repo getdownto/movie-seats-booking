@@ -43,14 +43,14 @@ a {
   outline: none;
   text-transform: uppercase;
   font-size: 0.8rem;
+  transition: all 0.3s ease;
 }
 
 a:hover,
 a:active,
 button:hover,
 button:active {
-  background-color: transparent;
-  color: #e95d6b;
+  transform: scale(0.95);
 }
 
 .flat {

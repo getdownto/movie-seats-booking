@@ -66,7 +66,11 @@ const movieSchema = new Schema({
     participants: [{
         type: ObjectId,
         ref: "User"
-    }]
+    }],
+
+    availableSeats: {
+        type: Array
+    }
 
 });
 

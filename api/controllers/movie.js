@@ -33,6 +33,37 @@ module.exports = {
         } = req.body;
         //const { _id } = req.user;
 
+        const seatsLayout = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+
+        const times = ["10:30", "14:30", "18:30", "21:30"]
+
+        let dateArray = [];
+        let dateTimeArray = []
+        const start = moment(startDate);
+        const end = moment(endDate);
+        let current = start;
+
+        while (current <= end) {
+            dateArray.push(moment(current).format("DD MMM"));
+            current = moment(current).add(1, "days");
+        }
+
+        dateArray.forEach(date => {
+            times.forEach(time => {
+                dateTimeArray.push({
+                    date,
+                    time,
+                    seatsLayout
+                })
+            });
+        });
+
         models.Movie.create({
             title,
             startDate,
@@ -45,6 +76,7 @@ module.exports = {
             price,
             rating: 0,
             participants: [],
+            availableSeats: dateTimeArray
         })
             // .then((created) => {
             //     return Promise.all([
@@ -90,11 +122,16 @@ module.exports = {
             const { rating } = req.body;
             models.Movie.findOne({ _id: id }).then((movie) => {
                 const participants = movie.participants;
-                const currentRating = movie.rating
-                participants.push(userId)
-                const newRating = (currentRating * (participants.length - 1)  + rating) / participants.length
+                const currentRating = movie.rating;
+                participants.push(userId);
+                const newRating =
+                    (currentRating * (participants.length - 1) + rating) /
+                    participants.length;
 
-                models.Movie.update({ _id: id }, { rating: Math.round(newRating * 10) / 10, participants })
+                models.Movie.update(
+                    { _id: id },
+                    { rating: Math.round(newRating * 10) / 10, participants }
+                )
                     .then((ratedMovie) => res.send(ratedMovie))
                     .catch(next);
             });
