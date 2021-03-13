@@ -128,7 +128,7 @@
                 <base-btn className="outline" @click="closeModal"
                     >Change selection</base-btn
                 >
-                <base-btn>Confirm</base-btn>
+                <base-btn @click="confirmOrder">Confirm</base-btn>
             </div>
         </div>
     </base-modal>
@@ -138,6 +138,7 @@
     import BaseBtn from "../components/base/BaseBtn.vue";
     import BookSeat from "../components/movies/BookSeat.vue";
     import movieService from "../services/movie-service";
+    import orderService from '../services/order-service'
     import moment from "moment";
     import BaseModal from "../components/base/BaseModal.vue";
     export default {
@@ -234,6 +235,14 @@
                 this.modalVisible = false;
                 console.log("modal closed");
             },
+            confirmOrder() {
+                const totalPrice = this.selectedSeats.length * this.movie.price
+                orderService.create(this.movie._id, this.movie.price, this.finalDate, this.movie.duration, totalPrice, this.selectedSeats).then(() => {
+                    console.log('ordered');
+                }).catch((e) => {
+                    console.log(e);
+                })
+            }
         },
         computed: {
             rating() {
