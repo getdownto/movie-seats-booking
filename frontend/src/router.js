@@ -6,6 +6,8 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import SearchPage from './pages/SearchPage'
 import DetailsPage from './pages/DetailsPage'
+import ProfilePage from './pages/ProfilePage'
+import store from './store/index'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -15,9 +17,18 @@ const router = createRouter({
         { path: '/register', component: RegisterPage},
         { path: '/all', component: SearchPage},
         { path: '/details/:id', component: DetailsPage},
-        { path: '/movie/create', component: CreateMovie}
+        { path: '/movie/create', component: CreateMovie},
+        { path: '/user/profile', component: ProfilePage},
     ]
 })
+
+router.beforeEach((to, from, next) => {
+    const isLoggedIn = store.getters.isLoggedIn && store.getters.isLoggedIn;
+    console.log(isLoggedIn, 'in router');
+    if ((to.path !== '/login' && to.path !== '/register' && to.path !== '/' && to.path !== '/all') && !isLoggedIn) next({ path: '/login' })
+    //else if ((to.path === '/login' || to.path === '/register') && isLoggedIn) next({ path: '/' })
+    else next()
+  })
 
 
 export default router

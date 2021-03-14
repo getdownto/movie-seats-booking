@@ -89,6 +89,7 @@
                 >Next <i class="fas fa-arrow-right"></i
             ></base-btn>
         </div>
+        <p v-if="missingData">PLease select date and time!</p>
         <book-seat
             v-if="seatsShown"
             :seats="seats"
@@ -157,6 +158,7 @@
                 datesShown: false,
                 seatsShown: false,
                 modalVisible: false,
+                missingData: false
             };
         },
         watch: {
@@ -173,17 +175,18 @@
                 this.userRating = i;
                 movieService.rate(id, this.rating).then(() => {
                     this.rated = true;
+                    //this.alreadyRated = true;
                     this.getMovieData();
                 });
             },
             getRating() {
-                const userId = this.$store.getters.userId;
+                const userId = this.$store.getters.userId && this.$store.getters.userId;
                 if (this.movie) {
                     this.alreadyRated = this.movie.participants
                         .map((p) => p._id)
                         .includes(userId);
                     console.log(this.alreadyRated, "in method");
-                    console.log(userId);
+                    console.log(userId, 'userId');
                 }
             },
             getMovieData() {
@@ -222,7 +225,12 @@
                 this.datesShown = true;
             },
             showSeats() {
-                this.seatsShown = true;
+                if (this.selectedDate && this.selectedTime) {
+                    this.seatsShown = true;
+                    this.missingData = false
+                }  else {
+                    this.missingData = true
+                }
                 //this.datesShown = false;
             },
             showModal(e) {
@@ -239,6 +247,7 @@
                 const totalPrice = this.selectedSeats.length * this.movie.price
                 orderService.create(this.movie._id, this.movie.price, this.finalDate, this.movie.duration, totalPrice, this.selectedSeats).then(() => {
                     console.log('ordered');
+                    this.$router.push('/')
                 }).catch((e) => {
                     console.log(e);
                 })

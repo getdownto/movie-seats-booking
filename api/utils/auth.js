@@ -6,6 +6,9 @@ module.exports = (redirectAuthenticated = true) => {
 
     return function (req, res, next) {
         let token =  req.cookies[config.authCookieName] || '';
+        console.log(token, 'token in auth');
+        console.log(req.cookies, 'cookies in auth');
+        console.log(req.signedCookies, 'signed cookies in auth');
 
         Promise.all([
             jwt.verifyToken(token),
@@ -25,6 +28,7 @@ module.exports = (redirectAuthenticated = true) => {
 
                 if (['jwt expired', 'blacklisted token', 'jwt must be provided'].includes(err.message)) {
                     res.status(401).send('UNAUTHORIZED!');
+                    console.log('in the error');
                     return;
                 }
 

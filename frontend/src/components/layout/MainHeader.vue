@@ -10,7 +10,7 @@
                     <li><a href="#">Coming Soon</a></li>
                 </ul>
                 <base-btn link to="/login" v-if="!isAuth">Login</base-btn>
-                <router-link to="/" v-else><i class="far fa-user-circle"></i> Profile</router-link>
+                <router-link to="/user/profile" v-else><i class="far fa-user-circle"></i> Profile</router-link>
             </div>
         </nav>
     </header>

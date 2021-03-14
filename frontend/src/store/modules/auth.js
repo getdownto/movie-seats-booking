@@ -4,8 +4,15 @@ export default {
     state() {
         return {
             userId: null,
+            username: null,
             isAdmin: false,
-            isLoggedIn: false,
+            isLoggedIn: !! (document.cookie
+            .split("; ")
+            .reduce((acc, cookie) => {
+                const [cookieName, cookieValue] = cookie.split("=");
+                acc[cookieName] = cookieValue;
+                return acc;
+            }, {})["x-auth-token"])
         };
     },
     getters: {
@@ -18,12 +25,16 @@ export default {
         isAdmin(state) {
             return state.isAdmin;
         },
+        username(state) {
+            return state.username;
+        },
     },
     mutations: {
         setUser(state, data) {
-            state.isLoggedIn = data.isLoggedIn,
-            state.userId = data.userId,
-            state.isAdmin = data.isAdmin;
+            (state.isLoggedIn = data.isLoggedIn),
+                (state.userId = data.userId),
+                (state.isAdmin = data.isAdmin),
+                (state.username = data.username);
         },
     },
     actions: {
@@ -34,7 +45,9 @@ export default {
                         isLoggedIn: true,
                         userId: user._id,
                         isAdmin: user.isAdmin,
+                        username: user.username,
                     });
+                    console.log("logged in");
                 }
             });
         },
@@ -51,6 +64,7 @@ export default {
                 cookies["x-auth-token"] !== undefined
             ) {
                 const token = cookies["x-auth-token"];
+                console.log(token);
                 if (!token) {
                     this.logOut();
                     return;
@@ -64,7 +78,9 @@ export default {
                                 isLoggedIn: true,
                                 userId: user._id,
                                 isAdmin: user.isAdmin,
+                                username: user.username,
                             });
+                            console.log(user, "user");
                         }
                     })
                     .catch((err) => console.log(err));
@@ -75,9 +91,9 @@ export default {
                 context.commit("setUser", {
                     userId: null,
                     isLoggedIn: false,
-                    isAdmin: false
+                    isAdmin: false,
                 });
-            })
+            });
         },
     },
 };

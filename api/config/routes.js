@@ -4,7 +4,7 @@ module.exports = (app) => {
 
     app.use('/api/user', router.user);
 
-    app.use('/api/movie/', router.movie);
+    app.use('/api/movie', router.movie);
 
     app.use('/api/book', router.book);
 

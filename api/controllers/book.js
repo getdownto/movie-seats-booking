@@ -6,7 +6,7 @@ module.exports = {
     get: {
         all: (req, res, next) => {
             models.Order.find()
-                .populate("user")
+                .populate('movie')
                 .then((orders) => res.send(orders))
                 .catch(next);
         },
@@ -17,7 +17,7 @@ module.exports = {
                 .populate("user")
                 .then((order) => res.send(order))
                 .catch(next);
-        },
+        }
     },
 
     post: (req, res, next) => {
