@@ -5,11 +5,7 @@ const utils = require('../utils');
 module.exports = {
     get: (req, res, next) => {
         const id = req.query.id
-        models.User.findById(id).populate({
-            path: 'trips',
-            // Get friends of friends - populate the 'friends' array for every friend
-            populate: { path: 'mainTrip' }
-        })
+        models.User.findById(id).populate('movie')
             .then((user) => res.send(user))
             .catch(next)
     },

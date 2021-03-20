@@ -5,22 +5,35 @@
 </template>
 
 <script>
-    import FooterEl from './components/layout/FooterEl.vue'
-    import MainHeader from './components/layout/MainHeader.vue'
+    import FooterEl from "./components/layout/FooterEl.vue";
+    import MainHeader from "./components/layout/MainHeader.vue";
 
     export default {
-      name: 'App',
-      components: {
-        MainHeader,
-        FooterEl
-
-      },
-      mounted() {
-          this.$store.dispatch('verify').then((data) => {
-            console.log(data, 'in verify in App.js');
-          })
-      }
-    }
+        name: "App",
+        components: {
+            MainHeader,
+            FooterEl,
+        },
+        methods: {
+            getAuth() {
+                this.$store.dispatch("verify").then(() => {
+                    console.log(this.$store.state, "in verify in App.js");
+                });
+            },
+        },
+        // beforeMount() {
+        //     this.getAuth()
+        //     console.log('BM');
+        // },
+        created() {
+            this.getAuth()
+            console.log('C');
+        },
+        updated() {
+            this.getAuth()
+            console.log('U');
+        },
+    };
 </script>
 
 <style>

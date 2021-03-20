@@ -6,13 +6,11 @@ export default {
             userId: null,
             username: null,
             isAdmin: false,
-            isLoggedIn: !! (document.cookie
-            .split("; ")
-            .reduce((acc, cookie) => {
+            isLoggedIn: !!document.cookie.split("; ").reduce((acc, cookie) => {
                 const [cookieName, cookieValue] = cookie.split("=");
                 acc[cookieName] = cookieValue;
                 return acc;
-            }, {})["x-auth-token"])
+            }, {})["x-auth-token"],
         };
     },
     getters: {
@@ -31,15 +29,16 @@ export default {
     },
     mutations: {
         setUser(state, data) {
-            (state.isLoggedIn = data.isLoggedIn),
-                (state.userId = data.userId),
-                (state.isAdmin = data.isAdmin),
-                (state.username = data.username);
+            state.isLoggedIn = data.isLoggedIn;
+            state.userId = data.userId;
+            state.isAdmin = data.isAdmin;
+            state.username = data.username;
         },
     },
     actions: {
-        async login(context, data) {
+        login(context, data) {
             userService.login(data.username, data.password).then((user) => {
+                console.log(user._id, 'user in action');
                 if (user !== "Invalid username or password") {
                     context.commit("setUser", {
                         isLoggedIn: true,
@@ -51,7 +50,7 @@ export default {
                 }
             });
         },
-        async verify(context) {
+        verify(context) {
             const cookies = document.cookie
                 .split("; ")
                 .reduce((acc, cookie) => {

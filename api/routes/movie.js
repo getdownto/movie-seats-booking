@@ -6,7 +6,7 @@ router.get('/', controllers.movie.get.all);
 
 router.get('/:id', controllers.movie.get.single);
 
-router.post('/', controllers.movie.post);
+router.post('/', auth(), controllers.movie.post);
 
 // router.put('/:id', auth(), controllers.movie.put);
 

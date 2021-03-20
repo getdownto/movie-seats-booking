@@ -27,24 +27,27 @@
             return {
                 username: "",
                 password: "",
-                errors: []
+                errors: [],
             };
         },
         methods: {
-            async submitForm() {
+            submitForm() {
                 //TO DO: add form validation
-                await this.$store.dispatch('login', {
+                this.$store
+                    .dispatch("login", {
                         username: this.username,
-                        password: this.password
+                        password: this.password,
                     })
-                    this.isLoading = false
-                    this.$router.replace('/')
+                    .then(() => {
+                        this.isLoading = false;
+                        this.$router.replace("/");
+                    });
             },
             validateForm() {
-                if (this.username === '') {
-                    this.errors.push['Username is required!']
+                if (this.username === "") {
+                    this.errors.push["Username is required!"];
                 }
-            }
+            },
         },
     };
 </script>

@@ -10,7 +10,12 @@
                     <li><a href="#">Coming Soon</a></li>
                 </ul>
                 <base-btn link to="/login" v-if="!isAuth">Login</base-btn>
-                <router-link to="/user/profile" v-else><i class="far fa-user-circle"></i> Profile</router-link>
+                <router-link to="/user/profile" v-else-if="isAdmin"
+                    ><i class="far fa-user-circle"></i> Admin Panel</router-link
+                >
+                <router-link to="/user/profile" v-else-if="!isAdmin"
+                    ><i class="far fa-user-circle"></i> Profile</router-link
+                >
             </div>
         </nav>
     </header>
@@ -21,6 +26,9 @@
         computed: {
             isAuth() {
                 return this.$store.getters.isLoggedIn;
+            },
+            isAdmin() {
+                return this.$store.getters.isAdmin;
             },
         },
         methods: {},
@@ -80,5 +88,4 @@
     a:hover {
         color: #e95d6b;
     }
-
 </style>

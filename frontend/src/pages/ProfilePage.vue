@@ -1,42 +1,126 @@
 <template>
-    <div class="user-profile" v-if="username">
+    <!-- <p v-if="loading">Loading...</p> -->
+    <div class="user-profile" v-if="allOrders">
         <div class="header">
-            <h2>User Profile</h2>
+            <h2 v-if="!isAdmin">User Profile</h2>
+            <h2 v-else>Admin Panel</h2>
             <p class="hello">Hello {{ username }}!</p>
         </div>
         <div class="profile-content">
             <div class="aside">
-                <ul>
-                    <li :class="{active: currentTab === 'orders'}">My orders</li>
-                    <li>Upcoming movies</li>
-                    <li>Past movies</li>
+                <ul v-if="!isAdmin">
+                    <li
+                        :class="{ active: currentTab === 'orders' }"
+                        @click="selectTab('orders')"
+                    >
+                        My orders
+                    </li>
+                    <li
+                        :class="{ active: currentTab === 'upcoming' }"
+                        @click="selectTab('upcoming')"
+                    >
+                        Upcoming movies
+                    </li>
+                    <li
+                        :class="{ active: currentTab === 'past' }"
+                        @click="selectTab('past')"
+                    >
+                        Past movies
+                    </li>
+                    <li @click="logout" class="logout">Logout</li>
+                </ul>
+                <ul v-else>
+                    <li
+                        :class="{ active: currentTab === 'orders-admin' }"
+                        @click="selectTab('orders-admin')"
+                    >
+                        All orders
+                    </li>
+                    <li>
+                        <router-link to="/movie/create">
+                            Add new movie
+                        </router-link>
+                    </li>
+                    <li
+                        :class="{ active: currentTab === 'make-admin' }"
+                        @click="selectTab('make-admin')"
+                    >
+                        Make admin
+                    </li>
                     <li @click="logout" class="logout">Logout</li>
                 </ul>
             </div>
             <div class="orders" v-if="currentTab === 'orders'">
                 <h3>My orders</h3>
-                <order-card :order="order" v-for="order in allOrders" :key="order._id"></order-card>
+                <order-card
+                    :order="order"
+                    v-for="order in allOrders"
+                    :key="order._id"
+                ></order-card>
+            </div>
+            <div class="orders" v-if="currentTab === 'upcoming'">
+                <h3>My Upcoming Movies</h3>
+                <order-card
+                    :order="order"
+                    v-for="order in upcoming"
+                    :key="order._id"
+                ></order-card>
+            </div>
+            <div class="orders" v-if="currentTab === 'past'">
+                <h3>My Past Movies</h3>
+                <order-card
+                    :order="order"
+                    v-for="order in past"
+                    :key="order._id"
+                ></order-card>
+            </div>
+            <div class="orders" v-if="currentTab === 'orders-admin'">
+                <h3>All Orders</h3>
+                <order-card
+                    :order="order"
+                    v-for="order in allAdminOrders"
+                    :key="order._id"
+                    @orderDeleted="deleteOrder"
+                ></order-card>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import OrderCard from '../components/order/OrderCard.vue';
-import orderService from '../services/order-service';
+    import moment from "moment";
+    import OrderCard from "../components/order/OrderCard.vue";
+    import orderService from "../services/order-service";
     export default {
-  components: { OrderCard },
+        components: { OrderCard },
         data() {
             return {
+                allAdminOrders: null,
                 allOrders: null,
-                currentTab: 'orders'
+                upcoming: null,
+                past: null,
+                loading: false,
             };
         },
         computed: {
             username() {
-                return (
-                    this.$store.getters.username && this.$store.getters.username
-                );
+                return this.$store.getters.username;
+            },
+            userId() {
+                return this.$store.getters.userId && this.$store.getters.userId;
+            },
+            isAdmin() {
+                return this.$store.getters.isAdmin;
+            },
+            currentTab() {
+                return this.isAdmin ? "orders-admin" : "orders";
+            },
+        },
+        watch: {
+            userId: function(newVal, oldVal) {
+                // watch it
+                console.log("Prop changed: ", newVal, " | was: ", oldVal);
+                this.loadAll();
             },
         },
         methods: {
@@ -45,16 +129,45 @@ import orderService from '../services/order-service';
                 this.$router.replace("/");
             },
             loadAll() {
-                //const userId = this.$store.getters.userId && this.$store.getters.userId;
-                orderService.load().then(orders => {
-                    this.allOrders = orders
-                    console.log(this.allOrders, 'all orders');
-                })
-            }
+                if (this.userId) {
+                    const id = this.userId;
+                    console.log(id, "id");
+                    orderService.load().then((order) => {
+                        console.log(order, "order");
+                        this.allAdminOrders = order;
+                        this.allOrders = order.filter((o) => o.user === id);
+                        this.upcoming = this.allOrders.filter((a) =>
+                            moment(a.date).isSameOrAfter(moment())
+                        );
+                        this.past = this.allOrders.filter((a) =>
+                            moment(a.date).isBefore(moment())
+                        );
+                        console.log(this.allOrders, "all orders");
+                    });
+                }
+            },
+            selectTab(tab) {
+                this.currentTab = tab;
+            },
+            deleteOrder(e) {
+                orderService.delete(e).then(() => {
+                    console.log("deleted");
+                    this.loadAll();
+                });
+            },
         },
         mounted() {
-            this.loadAll()
-        }
+            //!this.iserId ? this.loading = true : this.loading = false
+            console.log(this.userId, "user id");
+            this.loadAll();
+        },
+        created() {
+            console.log(this.userId, "user id");
+            this.loadAll();
+        },
+        // updated() {
+        //     this.loadAll()
+        // }
     };
 </script>
 
@@ -85,6 +198,15 @@ import orderService from '../services/order-service';
         text-transform: uppercase;
         font-weight: 400;
         list-style: none;
+    }
+
+    li a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    li a:hover {
+        color: rgb(37, 166, 218);
     }
 
     h2 {

@@ -46,7 +46,7 @@ module.exports = {
                 return Promise.all([
                     models.User.updateOne(
                         { _id },
-                        { $push: { movies: created } }
+                        { $push: { movies: created._id } }
                     ),
                     models.Movie.findOne({ _id: created.movie }).then(
                         (movie) => {
@@ -101,7 +101,6 @@ module.exports = {
     delete: (req, res, next) => {
         const id = req.params.id;
         const { _id, trips } = req.user;
-        const index = trips.indexOf(id);
         console.log(req.body);
         models.Order.findOneAndDelete({ _id: id })
             .then((deleted) => {
@@ -109,7 +108,7 @@ module.exports = {
                 return Promise.all([
                     models.User.updateOne(
                         { _id: deleted.user },
-                        { $pull: { trips: id } }
+                        { $pull: { movies: id } }
                     ),
                 ]);
             })

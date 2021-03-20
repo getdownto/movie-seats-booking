@@ -45,6 +45,7 @@
     padding: 2rem 4rem;
     left: 30%;
     top: 25%;
+    color: rgb(26, 26, 26);
     /* transition: all 0.3s ease-out;
     transform: translateY(-100vh);
     opacity: 0;
@@ -57,6 +58,7 @@
         float: right;
         content: "\00d7"; /* This will render the 'X' */
         cursor: pointer;
+        color: rgb(26, 26, 26);
 }
 
 
