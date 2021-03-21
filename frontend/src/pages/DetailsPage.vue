@@ -89,10 +89,11 @@
                 >Next <i class="fas fa-arrow-right"></i
             ></base-btn>
         </div>
-        <p v-if="missingData">PLease select date and time!</p>
+        <p v-if="missingData" class="missing-info">Please select date and time!</p>
         <book-seat
             v-if="seatsShown"
             :seats="seats"
+            :price="movie.price"
             @seatsSelected="showModal"
         ></book-seat>
     </div>
@@ -534,6 +535,13 @@
         text-transform: uppercase;
         font-size: 0.8rem;
         color: #e95d6b;
+    }
+
+    .missing-info {
+        color: #fff;
+        margin-left: 10%;
+        font-weight: 300;
+        font-style: italic;
     }
 
 </style>

@@ -2,7 +2,11 @@
     <div class="booking-container">
         <div class="seats-info">
             <p>Number of seats selected:</p>
-            <h3 class="number">{{selectedSeats.length}}</h3>
+            <h3 class="number">{{ selectedSeats.length }}</h3>
+        </div>
+        <div class="seats-info">
+            <p>Total price:</p>
+            <h3 class="number">{{ totalPrice }}</h3>
         </div>
         <div class="container">
             <p class="screen-caption">Screen</p>
@@ -41,6 +45,7 @@
                 <small>Occupied</small>
             </li>
         </ul>
+        <p v-if="warning" class="warning">Please select seats!</p>
         <base-btn @click="submitSeats()" className="outline"
             >Next <i class="fas fa-arrow-right"></i
         ></base-btn>
@@ -49,15 +54,22 @@
 
 <script>
     export default {
-        props: ["seats"],
+        props: ["seats", "price"],
         data() {
             return {
                 selectedSeats: [],
+                warning: false,
                 //currentSelection: null,
             };
         },
+        computed: {
+            totalPrice() {
+                return this.selectedSeats.length * this.price;
+            },
+        },
         methods: {
             selectSeat(index) {
+                this.warning = false;
                 if (!this.selectedSeats.includes(index)) {
                     // this.currentSelection = index;
                     this.selectedSeats.push(index);
@@ -69,8 +81,13 @@
                 }
             },
             submitSeats() {
-              this.$emit('seatsSelected', this.selectedSeats)
-            }
+                if (this.selectedSeats.length > 0) {
+                    this.warning = false;
+                    this.$emit("seatsSelected", this.selectedSeats);
+                } else {
+                    this.warning = true;
+                }
+            },
         },
         mounted() {
             console.log(this.props && this.props.seats);
@@ -91,7 +108,7 @@
 
     .seats-info {
         display: flex;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         align-items: center;
     }
 
@@ -213,6 +230,12 @@
     }
 
     button {
-      margin-top: 2rem;
+        margin-top: 2rem;
+    }
+
+    .warning {
+        color: #fff;
+        font-weight: 300;
+        font-style: italic;
     }
 </style>

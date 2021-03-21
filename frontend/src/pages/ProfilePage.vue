@@ -31,8 +31,8 @@
                 </ul>
                 <ul v-else>
                     <li
-                        :class="{ active: currentTab === 'orders-admin' }"
-                        @click="selectTab('orders-admin')"
+                        :class="{ active: currentTab === 'orders' && isAdmin }"
+                        @click="selectTab('orders')"
                     >
                         All orders
                     </li>
@@ -50,7 +50,7 @@
                     <li @click="logout" class="logout">Logout</li>
                 </ul>
             </div>
-            <div class="orders" v-if="currentTab === 'orders'">
+            <div class="orders" v-if="currentTab === 'orders' && !isAdmin">
                 <h3>My orders</h3>
                 <order-card
                     :order="order"
@@ -74,7 +74,7 @@
                     :key="order._id"
                 ></order-card>
             </div>
-            <div class="orders" v-if="currentTab === 'orders-admin'">
+            <div class="orders" v-if="currentTab === 'orders' && isAdmin">
                 <h3>All Orders</h3>
                 <order-card
                     :order="order"
@@ -100,6 +100,7 @@
                 upcoming: null,
                 past: null,
                 loading: false,
+                currentTab: this.isAdmin ? "orders-admin" : "orders"
             };
         },
         computed: {
@@ -112,9 +113,9 @@
             isAdmin() {
                 return this.$store.getters.isAdmin;
             },
-            currentTab() {
-                return this.isAdmin ? "orders-admin" : "orders";
-            },
+            // currentTab() {
+            //     return this.isAdmin ? "orders-admin" : "orders";
+            // },
         },
         watch: {
             userId: function(newVal, oldVal) {
