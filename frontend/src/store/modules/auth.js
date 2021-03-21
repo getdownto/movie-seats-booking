@@ -11,6 +11,7 @@ export default {
                 acc[cookieName] = cookieValue;
                 return acc;
             }, {})["x-auth-token"],
+            error: null
         };
     },
     getters: {
@@ -26,6 +27,9 @@ export default {
         username(state) {
             return state.username;
         },
+        error(state) {
+            return state.error;
+        },
     },
     mutations: {
         setUser(state, data) {
@@ -34,12 +38,15 @@ export default {
             state.isAdmin = data.isAdmin;
             state.username = data.username;
         },
+        setErrors(state, data) {
+            state.error = data.error
+        },
     },
     actions: {
         login(context, data) {
             userService.login(data.username, data.password).then((user) => {
-                console.log(user._id, 'user in action');
-                if (user !== "Invalid username or password") {
+                console.log(user, 'user in action');
+                if (user) {
                     context.commit("setUser", {
                         isLoggedIn: true,
                         userId: user._id,
@@ -47,7 +54,17 @@ export default {
                         username: user.username,
                     });
                     console.log("logged in");
+                } else {
+                    context.commit("setErrors", {
+                        error: "Invalid username or password"
+                    });
+                    console.log('error');
                 }
+            }).catch(err => {
+                context.commit("setErrors", {
+                    error: "Invalid username or password"
+                });
+                console.log(err, 'set error in state');
             });
         },
         verify(context) {

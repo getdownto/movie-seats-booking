@@ -32,7 +32,7 @@ const userService = {
                 password
             }),
             credentials: 'include'
-        }).then(res => res.json())
+        }).then(res => res.json()).catch(err => console.log(err))
     },
     verify: function(token) {
         return fetch('http://localhost:9999/api/user/verify', {

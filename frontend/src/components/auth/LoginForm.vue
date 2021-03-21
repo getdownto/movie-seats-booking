@@ -1,16 +1,37 @@
 <template>
-    <div class="form-container">
+    <div class="form-container" @submit.prevent="validateForm">
         <h2>Login</h2>
         <p>Welcome to Book a Seat</p>
-        <form @submit.prevent="submitForm">
+        <form>
             <div class="field-container">
-                <input type="text" placeholder="Username" v-model="username" />
+                <input
+                    type="text"
+                    placeholder="Username"
+                    v-model="username"
+                    :class="{ invalid: invalid && errors.username.length > 0 }"
+                    @blur="validateUsername"
+                />
                 <label for="username">Username</label>
+                <p v-if="invalid && errors.username.length > 0" class="error">
+                    {{ errors.username[0] }}
+                </p>
             </div>
             <div class="field-container">
-                <input type="text" placeholder="Password" v-model="password" />
+                <input
+                    type="text"
+                    placeholder="Password"
+                    v-model="password"
+                    :class="{ invalid: invalid && errors.password.length > 0 }"
+                    @blur="validatePassword"
+                />
                 <label for="password">Password</label>
+                <p v-if="invalid && errors.password.length > 0" class="error">
+                    {{ errors.password[0] }}
+                </p>
             </div>
+            <p v-if="errors.submit.length > 0" class="error">
+                {{ errors.submit[0] }}
+            </p>
             <base-btn>Login</base-btn>
             <router-link to="/register"
                 >Don't have an account yet?
@@ -27,26 +48,85 @@
             return {
                 username: "",
                 password: "",
-                errors: [],
+                errors: {
+                    username: [],
+                    password: [],
+                    submit: [],
+                },
+                invalid: false,
             };
         },
-        methods: {
-            submitForm() {
-                //TO DO: add form validation
-                this.$store
-                    .dispatch("login", {
-                        username: this.username,
-                        password: this.password,
-                    })
-                    .then(() => {
-                        this.isLoading = false;
-                        this.$router.replace("/");
-                    });
+        computed: {
+            stateErrors() {
+                return this.$store.getters.error;
             },
-            validateForm() {
-                if (this.username === "") {
-                    this.errors.push["Username is required!"];
+            userId() {
+                return this.$store.getters.userId;
+            },
+        },
+        methods: {
+            // submitForm() {
+            //     //TO DO: add form validation
+            //     this.$store
+            //         .dispatch("login", {
+            //             username: this.username,
+            //             password: this.password,
+            //         })
+            //         .then(() => {
+            //             this.isLoading = false;
+            //             this.$router.replace("/");
+            //         });
+            // },
+            submitForm() {
+                if (!this.invalid) {
+                    this.$store
+                        .dispatch("login", {
+                            username: this.username,
+                            password: this.password,
+                        })
+                        .then(() => {
+                            // console.log(res, 'res');
+                            setTimeout(() => {
+                                if (this.userId) {
+                                    this.$router.replace("/");
+                                } else {
+                                    this.errors["submit"].push(
+                                        this.stateErrors
+                                    );
+                                }
+                            }, 200);
+                        });
                 }
+            },
+            validateUsername() {
+                this.invalid = false;
+                this.errors.username = [];
+                if (this.username === "") {
+                    this.errors["username"].push("Username is required!");
+                    this.invalid = true;
+                }
+            },
+            validatePassword() {
+                this.invalid = false;
+                this.errors.password = [];
+                if (this.password === "") {
+                    this.errors["password"].push("Password is required!");
+                    this.invalid = true;
+                }
+                if (this.password.length < 3) {
+                    this.errors["password"].push(
+                        "Password should be at least 3 characters long!"
+                    );
+                    this.invalid = true;
+                }
+            },
+
+            validateForm() {
+                this.invalid = false;
+                this.validateUsername();
+                this.validatePassword();
+                this.errors.submit = []
+                this.submitForm();
             },
         },
     };
@@ -109,6 +189,13 @@
 
     .invalid + label {
         color: #ad033c;
+    }
+
+    .error {
+        color: #ad033c;
+        font-style: italic;
+        font-size: 0.8rem;
+        margin-top: -1.5rem;
     }
 
     input::placeholder {
