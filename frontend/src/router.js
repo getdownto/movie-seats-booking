@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage'
 import SearchPage from './pages/SearchPage'
 import DetailsPage from './pages/DetailsPage'
 import ProfilePage from './pages/ProfilePage'
+import EditMovie from './pages/EditMovie'
 import store from './store/index'
 
 const router = createRouter({
@@ -18,6 +19,7 @@ const router = createRouter({
         { path: '/all', component: SearchPage},
         { path: '/details/:id', component: DetailsPage},
         { path: '/movie/create', component: CreateMovie},
+        { path: '/movie/edit/:id', component: EditMovie},
         { path: '/user/profile', component: ProfilePage},
     ]
 })

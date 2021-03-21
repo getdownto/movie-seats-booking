@@ -48,6 +48,10 @@
                         {{ message }}
                     </p>
                 </div>
+                <div class="admin-panel">
+                    <base-btn link :to="`/movie/edit/${$route.params.id}`">Edit movie</base-btn>
+                    <base-btn className="outline">Delete movie</base-btn>
+                </div>
                 <div v-if="!datesShown && !seatsShown">
                     <base-btn v-if="isAvailable" @click="showDates"
                         >Book a seat</base-btn
@@ -542,6 +546,10 @@
         margin-left: 10%;
         font-weight: 300;
         font-style: italic;
+    }
+
+    .admin-panel {
+        margin-bottom: 2rem;
     }
 
 </style>

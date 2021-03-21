@@ -37,6 +37,9 @@
     import moment from "moment";
 
     export default {
+        props: {
+            dates: Object,
+        },
         setup(props, context) {
             const dateValue = moment();
             const daysInMonth = ref(dateValue.daysInMonth());
@@ -55,6 +58,8 @@
                 "December",
             ];
 
+            console.log(props.dates, "props");
+
             const month = ref(null);
             const date = ref(null);
             const year = ref(null);
@@ -68,12 +73,19 @@
                 year.value.value = dateValue.format("YYYY");
                 context.emit("getCurrent", dateValue);
 
-                // console.log(
-                //     month.value.value,
-                //     date.value.value,
-                //     year.value.value
-                // );
-                // console.log(month.value);
+                console.log(month.value.value);
+                console.log(date.value.value);
+                console.log(year.value.value);
+            };
+
+            const setCurrent = () => {
+                // console.log(moment(props.dates).format("DD"));
+                // console.log(moment(props.dates).format("MM"));
+                // console.log(moment(props.dates).format("YYYY"));
+
+                month.value.value = props.dates.month;
+                date.value.value = props.dates.day;
+                year.value.value = props.dates.year;
             };
 
             const editValue = (unit, evt) => {
@@ -85,7 +97,11 @@
             };
 
             onMounted(() => {
-                updateElements();
+                if (props.dates) {
+                    setCurrent();
+                } else {
+                    updateElements();
+                }
             });
 
             return {
