@@ -235,6 +235,7 @@
             },
             submitForm() {
                 if (!this.invalid) {
+                    const id = this.$route.params.id;
                     const newMovie = {
                         title: this.title,
                         startDate: this.startDate,
@@ -248,7 +249,7 @@
                     };
 
                     movieService
-                        .create(newMovie)
+                        .update(id, newMovie)
                         .then(() => {
                             this.$router.push("/");
                         })

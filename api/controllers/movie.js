@@ -41,10 +41,10 @@ module.exports = {
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        const times = ["10:30", "14:30", "18:30", "21:30"]
+        const times = ["10:30", "14:30", "18:30", "21:30"];
 
         let dateArray = [];
-        let dateTimeArray = []
+        let dateTimeArray = [];
         const start = moment(startDate);
         const end = moment(endDate);
         let current = start;
@@ -54,13 +54,13 @@ module.exports = {
             current = moment(current).add(1, "days");
         }
 
-        dateArray.forEach(date => {
-            times.forEach(time => {
+        dateArray.forEach((date) => {
+            times.forEach((time) => {
                 dateTimeArray.push({
                     date,
                     time,
-                    seatsLayout
-                })
+                    seatsLayout,
+                });
             });
         });
 
@@ -76,7 +76,7 @@ module.exports = {
             price,
             rating: 0,
             participants: [],
-            availableSeats: dateTimeArray
+            availableSeats: dateTimeArray,
         })
             // .then((created) => {
             //     return Promise.all([
@@ -89,33 +89,36 @@ module.exports = {
     },
 
     put: {
-        // edit: (req, res, next) => {
-        //     const id = req.params.id;
-        //     const {
-        //         destination,
-        //         startDate,
-        //         imageUrl,
-        //         description,
-        //         duration,
-        //         price,
-        //         additionalTrips,
-        //     } = req.body;
-        //     models.Travel.update(
-        //         { _id: id },
-        //         {
-        //             destination,
-        //             startDate,
-        //             imageUrl,
-        //             description,
-        //             duration,
-        //             price,
-        //             additionalTrips: [...additionalTrips],
-        //             participants: [],
-        //         }
-        //     )
-        //         .then((updatedTravel) => res.send(updatedTravel))
-        //         .catch(next);
-        // },
+        edit: (req, res, next) => {
+            const id = req.params.id;
+            const {
+                title,
+                startDate,
+                endDate,
+                imageUrl,
+                overview,
+                shortDescription,
+                duration,
+                genre,
+                price,
+            } = req.body;
+            models.Movie.update(
+                { _id: id },
+                {
+                    title,
+                    startDate,
+                    endDate,
+                    imageUrl,
+                    overview,
+                    shortDescription,
+                    duration,
+                    genre,
+                    price,
+                }
+            )
+                .then((updatedMovie) => res.send(updatedMovie))
+                .catch(next);
+        },
         rate: (req, res, next) => {
             const id = req.params.id;
             const userId = req.user._id;
@@ -138,10 +141,10 @@ module.exports = {
         },
     },
 
-    // delete: (req, res, next) => {
-    //     const id = req.params.id;
-    //     models.Travel.deleteOne({ _id: id })
-    //         .then((removedTravel) => res.send(removedTravel))
-    //         .catch(next)
-    // }
+    delete: (req, res, next) => {
+        const id = req.params.id;
+        models.Movie.deleteOne({ _id: id })
+            .then((removedMovie) => res.send(removedMovie))
+            .catch(next)
+    }
 };

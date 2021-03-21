@@ -19,7 +19,7 @@ const movieService = {
             credentials: 'include'
         }).then(res => res.text())
     },
-    update: function(id, destination, price, imageUrl, startDate, duration, description, additionalTrips) {
+    update: function(id, updatedMovie) {
         return fetch(`http://localhost:9999/api/movie/${id}`, {
             method: 'PUT',
             headers: {
@@ -27,15 +27,7 @@ const movieService = {
                 'Content-Type': 'application/json',
 
             },
-            body: JSON.stringify({
-                destination,
-                price,
-                imageUrl,
-                startDate,
-                duration,
-                description,
-                additionalTrips
-            }),
+            body: JSON.stringify(updatedMovie),
             credentials: 'include'
         }).then(res => res.text())
     },
@@ -54,7 +46,7 @@ const movieService = {
         }).then(res => res.text())
     },
     delete: function(id) {
-        return fetch(`http://localhost:9999/api/travel/${id}`, {
+        return fetch(`http://localhost:9999/api/movie/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
