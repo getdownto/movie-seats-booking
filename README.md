@@ -17,7 +17,6 @@ After code is downloaded, all dependecies should be installed (`npm install`). A
 | -----              | --------------                                            |-------        | -------------    |------            |-------           |
 | Home               | View Home Page                                            |/              |:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
 | All Movies/Search  | View all movies and search through them                   |/all           |:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
-| About              | View About Page (static)                                  |/about         |:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
 | Register           | New user registration                                     |/register      |:heavy_check_mark:|       :x:        |         :x:      |
 | Login              | Sign in for existing user                                 |/login         |:heavy_check_mark:|       :x:        |         :x:      |
 | Movie Details      | View movie details                                        |/details/:id   |:x:               |:heavy_check_mark:|:heavy_check_mark:|
