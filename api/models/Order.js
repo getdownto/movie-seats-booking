@@ -10,6 +10,11 @@ const orderSchema = new Schema({
         ref: "Movie"
     },
 
+    title: {
+        type: String,
+        required: true
+    },
+
     moviePrice: {
         type: Number,
         required: true

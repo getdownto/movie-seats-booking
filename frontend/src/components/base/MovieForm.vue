@@ -67,8 +67,9 @@
                     {{ errors.genres[0] }}
                 </p>
                 <div class="genre-badges">
-                    <div class="badge" v-for="genre in genreArr" :key="genre">
+                    <div class="badge" v-for="(genre, index) in genreArr" :key="genre">
                         {{ genre }}
+                        <div class="close" @click="deleteBadge(index)"></div>
                     </div>
                 </div>
             </div>
@@ -186,6 +187,9 @@
                 this.genreArr.push(this.genre);
                 this.genre = "";
             },
+            deleteBadge(index) {
+                this.genreArr.splice(index, 1);
+            },
             submitForm() {
                 if (!this.invalid) {
                     const newMovie = {
@@ -231,7 +235,7 @@
                 }
             },
 
-                        validateDuration() {
+            validateDuration() {
                 this.invalid = false;
                 this.errors.duration = [];
                 if (this.duration === null || this.duration === "") {
@@ -321,6 +325,7 @@
     }
 
     .badge {
+        display: flex;
         color: rgb(37, 166, 218);
         border: 1px solid rgb(37, 166, 218);
         padding: 0.3rem 0.6rem;
@@ -453,5 +458,13 @@
         font-style: italic;
         font-size: 0.8rem;
         margin-top: -1.5rem;
+    }
+
+    .close:after {
+        content: "\00d7"; /* This will render the 'X' */
+        cursor: pointer;
+        color: rgb(37, 166, 218);
+        margin-left: 0.5rem;
+        font-size: 1.2rem;
     }
 </style>

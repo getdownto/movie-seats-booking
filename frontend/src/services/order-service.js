@@ -9,7 +9,7 @@ const orderService = {
             res.json()
         );
     },
-    create: function(movie, moviePrice, date, duration, totalPrice, seats) {
+    create: function(movie, title, moviePrice, date, duration, totalPrice, seats) {
         return fetch("http://localhost:9999/api/book", {
             method: "POST",
             headers: {
@@ -18,6 +18,7 @@ const orderService = {
             },
             body: JSON.stringify({
                 movie,
+                title,
                 moviePrice,
                 date,
                 duration,

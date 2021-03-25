@@ -1,7 +1,7 @@
 <template>
     <div class="order-card">
         <div class="cart-header">
-            <h2 class="confirm-title">{{ order.movie.title }}</h2>
+            <h2 class="confirm-title">{{ order.title }}</h2>
             <div class="icons" v-if="isAdmin">
                 <i class="far fa-edit" @click="openEdit"></i>
                 <i class="far fa-trash-alt" @click="showModal"></i>

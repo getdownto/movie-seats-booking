@@ -286,6 +286,7 @@
                 orderService
                     .create(
                         this.movie._id,
+                        this.movie.title,
                         this.movie.price,
                         this.finalDate,
                         this.movie.duration,
