@@ -22,11 +22,12 @@ After code is downloaded, all dependecies should be installed (`npm install`). A
 | Movie Details      | View movie details                                        |/details/:id   |:x:               |:heavy_check_mark:|:heavy_check_mark:|
 | Movie Details      | Delete movie (after confirmation)                         |/details/:id   |       :x:        |       :x:        |:heavy_check_mark:|
 | Movie Details      | Book movie seats (after confirmation of details)          |/details/:id   |       :x:        |:heavy_check_mark:|       :x:        |
-| Movie Details      | Rate movie                                                |/details/:id   |       :x:        |:heavy_check_mark:|       :x:        |
-| Create Movie       | Create new trip                                           |/movie/create  |:x:               |:x:               |:heavy_check_mark:|
-| Edit Movie         | Edit existing trip                                        |/movie/edit/:id|:x:               |:x:               |:heavy_check_mark:|
+| Movie Details      | Rate movie                                                |/details/:id   |       :x:        |:heavy_check_mark:|:heavy_check_mark:|
+| Create Movie       | Create new movie                                          |/movie/create  |:x:               |:x:               |:heavy_check_mark:|
+| Edit Movie         | Edit existing movie                                       |/movie/edit/:id|:x:               |:x:               |:heavy_check_mark:|
 | User Profile       | View All Orders (created by that user)                    |/user/profile  |:x:               |:heavy_check_mark:|:x:               |
 | Admin Panel        | View All Users and make selected user admin               |/user/profile  |:x:               |:x:               |:heavy_check_mark:|
 | Edit User Order    | Edit selected order (change status)                       |/user/profile  |:x:               |:x:               |:heavy_check_mark:|
+| Delete User Order  | Delete selected order (after confirmation)                |/user/profile  |:x:               |:x:               |:heavy_check_mark:|
 
 
