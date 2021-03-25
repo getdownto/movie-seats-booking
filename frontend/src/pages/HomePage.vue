@@ -51,7 +51,7 @@
         methods: {
             setFilter(e) {
                 this.selectedFilter = e;
-                console.log("emitted in home", this.selectedFilter);
+                //console.log("emitted in home", this.selectedFilter);
             },
             filter() {
                 return this.selectedFilter;

@@ -228,8 +228,8 @@
             getEndDate(data) {
                 this.endDate = data;
             },
-            getBadges(e) {
-                console.log(e.keyCode);
+            getBadges() {
+                //console.log(e.keyCode);
                 this.genreArr.push(this.genre);
                 this.genre = "";
             },
@@ -265,7 +265,7 @@
                 if (this.title === null || this.title === "") {
                     this.errors["title"].push("Title is required!");
                     this.invalid = true;
-                    console.log(this.errors, "errors");
+                    //console.log(this.errors, "errors");
                 }
             },
 
@@ -325,7 +325,7 @@
             },
 
             validateGenre() {
-                console.log(this.genreArr, "genre arr");
+                //console.log(this.genreArr, "genre arr");
                 this.invalid = false;
                 this.errors.genres = [];
                 if (this.genreArr.length <= 0) {

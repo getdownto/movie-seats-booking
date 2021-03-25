@@ -17,7 +17,7 @@
         methods: {
             getAuth() {
                 this.$store.dispatch("verify").then(() => {
-                    console.log(this.$store.state, "in verify in App.js");
+                    //console.log(this.$store.state, "in verify in App.js");
                 });
             },
         },
@@ -27,11 +27,11 @@
         // },
         created() {
             this.getAuth()
-            console.log('C');
+            //console.log('C');
         },
         updated() {
             this.getAuth()
-            console.log('U');
+            //console.log('U');
         },
     };
 </script>

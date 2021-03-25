@@ -58,7 +58,7 @@
                 });
             },
             filterMovies() {
-                console.log("received filter", this.filter);
+                //console.log("received filter", this.filter);
                 const now = moment();
                 const timelimit = moment(now).add(12, "days");
                 if (this.filter === "recent") {
@@ -66,7 +66,7 @@
                         moment(m.startDate).isBefore(timelimit)
                     );
                     this.filteredMovies = recent.slice(0, 7);
-                    console.log("filtered recent");
+                    //console.log("filtered recent");
                 } else if (this.filter === "popular") {
                     const popular = this.movies.filter((m) => m.rating > 8);
                     this.filteredMovies = popular.slice(0, 7);
@@ -87,10 +87,7 @@
         },
         mounted() {
             this.loadAll();
-            console.log(this.filter);
-        },
-        updated() {
-            console.log(this.filter, "updated");
+            //console.log(this.filter);
         },
     };
 </script>

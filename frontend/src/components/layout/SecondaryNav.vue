@@ -50,7 +50,7 @@
             selected(filter) {
                 this.$emit("selected", filter);
                 this.currentFilter = filter;
-                console.log("emitting", filter);
+                //console.log("emitting", filter);
             },
             submitSearch() {
                 this.$router.push(`/all?search=${this.search}`)

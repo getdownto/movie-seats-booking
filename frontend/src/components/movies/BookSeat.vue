@@ -89,9 +89,9 @@
                 }
             },
         },
-        mounted() {
-            console.log(this.props && this.props.seats);
-        },
+        // mounted() {
+        //     console.log(this.props && this.props.seats);
+        // },
     };
 </script>
 

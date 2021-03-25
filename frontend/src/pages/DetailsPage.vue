@@ -176,7 +176,7 @@
         methods: {
             setRating(i) {
                 const id = this.$route.params.id;
-                console.log(i, "index");
+                //console.log(i, "index");
                 this.userRating = i;
                 movieService.rate(id, this.rating).then(() => {
                     this.rated = true;
@@ -190,15 +190,15 @@
                     this.alreadyRated = this.movie.participants
                         .map((p) => p._id)
                         .includes(userId);
-                    console.log(this.alreadyRated, "in method");
-                    console.log(userId, 'userId');
+                    // console.log(this.alreadyRated, "in method");
+                    // console.log(userId, 'userId');
                 }
             },
             getMovieData() {
                 const id = this.$route.params.id;
                 movieService.details(id).then((movie) => {
                     this.movie = movie;
-                    console.log(this.movie.availableSeats);
+                    //console.log(this.movie.availableSeats);
                     this.getDates();
                 });
             },
@@ -241,17 +241,17 @@
             showModal(e) {
                 this.modalVisible = true;
                 this.selectedSeats = e;
-                console.log("show modal");
-                console.log(e, "selected seats");
+                // console.log("show modal");
+                // console.log(e, "selected seats");
             },
             closeModal() {
                 this.modalVisible = false;
-                console.log("modal closed");
+                //console.log("modal closed");
             },
             confirmOrder() {
                 const totalPrice = this.selectedSeats.length * this.movie.price
                 orderService.create(this.movie._id, this.movie.price, this.finalDate, this.movie.duration, totalPrice, this.selectedSeats).then(() => {
-                    console.log('ordered');
+                    //console.log('ordered');
                     this.$router.push('/')
                 }).catch((e) => {
                     console.log(e);
@@ -290,13 +290,13 @@
         mounted() {
             this.getMovieData();
             this.getRating();
-            console.log(this.$store.getters.userId);
+            //console.log(this.$store.getters.userId);
         },
-        updated() {
-            console.log(this.rating);
-            console.log(this.alreadyRated, "already");
-            console.log(this.finalDate);
-        },
+        // updated() {
+        //     console.log(this.rating);
+        //     console.log(this.alreadyRated, "already");
+        //     console.log(this.finalDate);
+        // },
     };
 </script>
 

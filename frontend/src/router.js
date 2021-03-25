@@ -27,7 +27,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const isLoggedIn = store.getters.isLoggedIn && store.getters.isLoggedIn;
     const isAdmin = store.getters.isAdmin && store.getters.isAdmin;
-    console.log(isLoggedIn, 'in router');
     if ((to.path !== '/login' && to.path !== '/register' && to.path !== '/' && to.path !== '/all') && !isLoggedIn) next({ path: '/login' })
     else if ((to.path === '/login' || to.path === '/register') && isLoggedIn) next({ path: '/' })
     else if ((to.path === '/movie/create') && !isAdmin) next({ path: '/' })

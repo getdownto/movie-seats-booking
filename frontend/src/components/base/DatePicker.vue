@@ -58,7 +58,7 @@
                 "December",
             ];
 
-            console.log(props.dates, "props");
+            //console.log(props.dates, "props");
 
             const month = ref(null);
             const date = ref(null);
@@ -73,9 +73,9 @@
                 year.value.value = dateValue.format("YYYY");
                 context.emit("getCurrent", dateValue);
 
-                console.log(month.value.value);
-                console.log(date.value.value);
-                console.log(year.value.value);
+                // console.log(month.value.value);
+                // console.log(date.value.value);
+                // console.log(year.value.value);
             };
 
             const setCurrent = () => {
@@ -93,7 +93,7 @@
                 daysInMonth.value = dateValue.daysInMonth();
                 updateElements();
                 context.emit("update", dateValue);
-                console.log(dateValue);
+                //console.log(dateValue);
             };
 
             onMounted(() => {

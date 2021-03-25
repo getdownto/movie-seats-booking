@@ -132,9 +132,9 @@
             loadAll() {
                 if (this.userId) {
                     const id = this.userId;
-                    console.log(id, "id");
+                    //console.log(id, "id");
                     orderService.load().then((order) => {
-                        console.log(order, "order");
+                        //console.log(order, "order");
                         this.allAdminOrders = order;
                         this.allOrders = order.filter((o) => o.user === id);
                         this.upcoming = this.allOrders.filter((a) =>
@@ -143,7 +143,7 @@
                         this.past = this.allOrders.filter((a) =>
                             moment(a.date).isBefore(moment())
                         );
-                        console.log(this.allOrders, "all orders");
+                       // console.log(this.allOrders, "all orders");
                     });
                 }
             },
@@ -152,18 +152,18 @@
             },
             deleteOrder(e) {
                 orderService.delete(e).then(() => {
-                    console.log("deleted");
+                    //console.log("deleted");
                     this.loadAll();
                 });
             },
         },
         mounted() {
             //!this.iserId ? this.loading = true : this.loading = false
-            console.log(this.userId, "user id");
+            //console.log(this.userId, "user id");
             this.loadAll();
         },
         created() {
-            console.log(this.userId, "user id");
+            //console.log(this.userId, "user id");
             this.loadAll();
         },
         // updated() {

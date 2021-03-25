@@ -18,7 +18,7 @@
             </div>
             <div class="field-container">
                 <input
-                    type="text"
+                    type="password"
                     placeholder="Password"
                     v-model="password"
                     :class="{ invalid: invalid && errors.password.length > 0 }"
@@ -94,7 +94,7 @@
                                         this.stateErrors
                                     );
                                 }
-                            }, 200);
+                            }, 400);
                         });
                 }
             },

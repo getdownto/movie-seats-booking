@@ -45,7 +45,7 @@ export default {
     actions: {
         login(context, data) {
             userService.login(data.username, data.password).then((user) => {
-                console.log(user, 'user in action');
+                //console.log(user, 'user in action');
                 if (user) {
                     context.commit("setUser", {
                         isLoggedIn: true,
@@ -53,7 +53,7 @@ export default {
                         isAdmin: user.isAdmin,
                         username: user.username,
                     });
-                    console.log("logged in");
+                   // console.log("logged in");
                 } else {
                     context.commit("setErrors", {
                         error: "Invalid username or password"
@@ -80,7 +80,7 @@ export default {
                 cookies["x-auth-token"] !== undefined
             ) {
                 const token = cookies["x-auth-token"];
-                console.log(token);
+                //console.log(token);
                 if (!token) {
                     this.logOut();
                     return;

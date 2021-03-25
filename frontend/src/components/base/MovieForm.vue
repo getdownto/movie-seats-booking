@@ -182,8 +182,7 @@
             getEndDate(data) {
                 this.endDate = data;
             },
-            getBadges(e) {
-                console.log(e.keyCode);
+            getBadges() {
                 this.genreArr.push(this.genre);
                 this.genre = "";
             },
@@ -214,7 +213,6 @@
             validateTitle() {
                 this.invalid = false;
                 this.errors.title = [];
-                console.log(this.title, "title");
                 if (this.title === null || this.title === "") {
                     this.errors["title"].push("Title is required!");
                     this.invalid = true;
@@ -278,7 +276,7 @@
             },
 
             validateGenre() {
-                console.log(this.genreArr, "genre arr");
+                //console.log(this.genreArr, "genre arr");
                 this.invalid = false;
                 this.errors.genres = [];
                 if (this.genreArr.length <= 0) {
