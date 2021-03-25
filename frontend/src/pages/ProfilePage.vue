@@ -83,6 +83,14 @@
                     @orderDeleted="deleteOrder"
                 ></order-card>
             </div>
+            <div class="orders" v-if="currentTab === 'make-admin'">
+                <h3>All Users</h3>
+                <div class="user-details" v-for="user in allUsers" :key="user._id">
+                    <p class="username">{{user.username}}</p>
+                    <base-btn className="outline-blue" v-if="!user.isAdmin" @click="makeAdmin(user._id)">Make Admin</base-btn>
+                    <p v-else>ADMIN</p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -91,16 +99,19 @@
     import moment from "moment";
     import OrderCard from "../components/order/OrderCard.vue";
     import orderService from "../services/order-service";
+    import BaseBtn from "../components/base/BaseBtn.vue";
+import userService from '../services/user-service';
     export default {
-        components: { OrderCard },
+        components: { OrderCard, BaseBtn },
         data() {
             return {
                 allAdminOrders: null,
                 allOrders: null,
+                allUsers: null,
                 upcoming: null,
                 past: null,
                 loading: false,
-                currentTab: this.isAdmin ? "orders-admin" : "orders"
+                currentTab: this.isAdmin ? "orders-admin" : "orders",
             };
         },
         computed: {
@@ -122,6 +133,7 @@
                 // watch it
                 console.log("Prop changed: ", newVal, " | was: ", oldVal);
                 this.loadAll();
+                this.getAllUsers()
             },
         },
         methods: {
@@ -143,9 +155,21 @@
                         this.past = this.allOrders.filter((a) =>
                             moment(a.date).isBefore(moment())
                         );
-                       // console.log(this.allOrders, "all orders");
+                        // console.log(this.allOrders, "all orders");
                     });
                 }
+            },
+            getAllUsers() {
+                userService.loadAll().then((data) => {
+                    this.allUsers = data
+                    console.log(this.allUsers);
+                })
+            },
+
+            makeAdmin(id) {
+                userService.makeAdmin(id).then(() => {
+                    this.getAllUsers()
+                })
             },
             selectTab(tab) {
                 this.currentTab = tab;
@@ -161,10 +185,12 @@
             //!this.iserId ? this.loading = true : this.loading = false
             //console.log(this.userId, "user id");
             this.loadAll();
+            this.getAllUsers()
         },
         created() {
             //console.log(this.userId, "user id");
             this.loadAll();
+            this.getAllUsers()
         },
         // updated() {
         //     this.loadAll()
@@ -234,5 +260,16 @@
     .header {
         display: flex;
         justify-content: space-between;
+    }
+
+    .user-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(30, 60, 116, 0.322);
+        padding: 1rem 2rem;
+        box-shadow: 0 1rem 2rem rgba(3, 22, 58, 0.664);
+        width: 100%;
+        margin-top: 1rem;
     }
 </style>
