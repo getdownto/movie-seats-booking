@@ -18,7 +18,7 @@
           <p>{{ duration }} <span>min</span></p>
         </div>
       </div>
-      <base-btn className="outline">Book</base-btn>
+      <base-btn link :to="`/details/${id}`" className="outline">Book</base-btn>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@
 import BaseBtn from "../base/BaseBtn.vue";
 export default {
   components: { BaseBtn },
-  props: ["title", "url", "rating", 'startDate', 'endDate', 'duration', 'shortDescription'],
+  props: ["id", "title", "url", "rating", 'startDate', 'endDate', 'duration', 'shortDescription'],
 };
 </script>
 
@@ -100,7 +100,7 @@ h3 {
   padding-top: 1.5rem;
 }
 
-button {
+button, a {
   margin: auto;
 }
 

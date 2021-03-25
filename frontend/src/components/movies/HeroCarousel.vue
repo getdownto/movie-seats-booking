@@ -19,6 +19,7 @@
                     <carousel-cart
                         v-for="item in items"
                         :key="item._id"
+                        :id="item._id"
                         :title="item.title"
                         :url="item.imageUrl"
                         :rating="item.rating"
