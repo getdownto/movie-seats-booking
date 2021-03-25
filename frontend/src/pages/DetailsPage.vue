@@ -48,11 +48,15 @@
                         {{ message }}
                     </p>
                 </div>
-                <div class="admin-panel">
-                    <base-btn link :to="`/movie/edit/${$route.params.id}`">Edit movie</base-btn>
-                    <base-btn className="outline">Delete movie</base-btn>
+                <div class="admin-panel" v-if="isAdmin">
+                    <base-btn link :to="`/movie/edit/${$route.params.id}`"
+                        >Edit movie</base-btn
+                    >
+                    <base-btn className="outline" @click="showDeleteModal"
+                        >Delete movie</base-btn
+                    >
                 </div>
-                <div v-if="!datesShown && !seatsShown">
+                <div v-if="!datesShown && !seatsShown && !isAdmin">
                     <base-btn v-if="isAvailable" @click="showDates"
                         >Book a seat</base-btn
                     >
@@ -93,17 +97,18 @@
                 >Next <i class="fas fa-arrow-right"></i
             ></base-btn>
         </div>
-        <p v-if="missingData" class="missing-info">Please select date and time!</p>
+        <p v-if="missingData" class="missing-info">
+            Please select date and time!
+        </p>
         <book-seat
             v-if="seatsShown"
             :seats="seats"
             :price="movie.price"
-            @seatsSelected="showModal"
+            @seatsSelected="showConfirmModal"
         ></book-seat>
     </div>
     <base-modal v-if="modalVisible" @closeModal="closeModal">
-        
-        <div class="booking-details">
+        <div class="booking-details" v-if="confirmModal">
             <h3>Booking Details</h3>
             <h2 class="confirm-title">{{ movie.title }}</h2>
             <p>
@@ -112,7 +117,10 @@
                     >{{ selectedDate }} - {{ selectedTime }}</span
                 >
             </p>
-            <p class="selection"><span class="span-bold">{{ selectedSeats.length }}</span> seats selected:</p>
+            <p class="selection">
+                <span class="span-bold">{{ selectedSeats.length }}</span> seats
+                selected:
+            </p>
             <ul class="confirm-seats">
                 <li v-for="(seat, index) in selectedSeats" :key="index">
                     <i class="fas fa-stream"></i>
@@ -137,6 +145,18 @@
                 <base-btn @click="confirmOrder">Confirm</base-btn>
             </div>
         </div>
+        <div class="delete-modal" v-if="deleteModal">
+            <div class="booking-details">
+                <h3>Confirm action</h3>
+            </div>
+            <h3>Are you sure you want to delete this item?</h3>
+            <div class="btn-container">
+                <base-btn className="outline" @click="closeModal"
+                    >Cancel</base-btn
+                >
+                <base-btn @click="deleteMovie">Confirm</base-btn>
+            </div>
+        </div>
     </base-modal>
 </template>
 
@@ -144,7 +164,7 @@
     import BaseBtn from "../components/base/BaseBtn.vue";
     import BookSeat from "../components/movies/BookSeat.vue";
     import movieService from "../services/movie-service";
-    import orderService from '../services/order-service'
+    import orderService from "../services/order-service";
     import moment from "moment";
     import BaseModal from "../components/base/BaseModal.vue";
     export default {
@@ -163,7 +183,9 @@
                 datesShown: false,
                 seatsShown: false,
                 modalVisible: false,
-                missingData: false
+                missingData: false,
+                confirmModal: false,
+                deleteModal: false,
             };
         },
         watch: {
@@ -185,7 +207,8 @@
                 });
             },
             getRating() {
-                const userId = this.$store.getters.userId && this.$store.getters.userId;
+                const userId =
+                    this.$store.getters.userId && this.$store.getters.userId;
                 if (this.movie) {
                     this.alreadyRated = this.movie.participants
                         .map((p) => p._id)
@@ -232,15 +255,25 @@
             showSeats() {
                 if (this.selectedDate && this.selectedTime) {
                     this.seatsShown = true;
-                    this.missingData = false
-                }  else {
-                    this.missingData = true
+                    this.missingData = false;
+                } else {
+                    this.missingData = true;
                 }
                 //this.datesShown = false;
             },
-            showModal(e) {
+            showConfirmModal(e) {
+                this.confirmModal = true;
+                this.deleteModal = false;
                 this.modalVisible = true;
                 this.selectedSeats = e;
+                // console.log("show modal");
+                // console.log(e, "selected seats");
+            },
+            showDeleteModal() {
+                this.deleteModal = true;
+                this.computed = false;
+                this.modalVisible = true;
+                //this.selectedSeats = e;
                 // console.log("show modal");
                 // console.log(e, "selected seats");
             },
@@ -249,14 +282,32 @@
                 //console.log("modal closed");
             },
             confirmOrder() {
-                const totalPrice = this.selectedSeats.length * this.movie.price
-                orderService.create(this.movie._id, this.movie.price, this.finalDate, this.movie.duration, totalPrice, this.selectedSeats).then(() => {
-                    //console.log('ordered');
-                    this.$router.push('/')
-                }).catch((e) => {
-                    console.log(e);
-                })
-            }
+                const totalPrice = this.selectedSeats.length * this.movie.price;
+                orderService
+                    .create(
+                        this.movie._id,
+                        this.movie.price,
+                        this.finalDate,
+                        this.movie.duration,
+                        totalPrice,
+                        this.selectedSeats
+                    )
+                    .then(() => {
+                        //console.log('ordered');
+                        this.$router.push("/");
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            },
+
+            deleteMovie() {
+                const id = this.$route.params.id;
+                movieService.delete(id).then(() => {
+                    console.log("deleted");
+                    this.$router.push("/all");
+                });
+            },
         },
         computed: {
             rating() {
@@ -285,6 +336,9 @@
                 return this.movie.availableSeats
                     .filter((d) => d.date === this.selectedDate)
                     .filter((t) => t.time === this.selectedTime)[0].seatsLayout;
+            },
+            isAdmin() {
+                return this.$store.getters.isAdmin;
             },
         },
         mounted() {
@@ -552,4 +606,9 @@
         margin-bottom: 2rem;
     }
 
+    .btn-container {
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 3rem;
+    }
 </style>
