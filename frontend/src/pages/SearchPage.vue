@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form class="search" @submit.prevent="submitSearch">
+        <form class="search search-container" @submit.prevent="submitSearch">
             <input
                 type="text"
                 id="search"
@@ -23,12 +23,12 @@
         data() {
             return {
                 search: "",
-                searchProp: ''
+                searchProp: "",
             };
         },
         methods: {
             submitSearch() {
-                this.searchProp = this.search
+                this.searchProp = this.search;
                 this.$router.push(`/all?search=${this.search}`);
             },
         },
@@ -36,8 +36,13 @@
 </script>
 
 <style scoped>
+    .search-container {
+        margin-top: 2rem;
+        margin-right: 8%;
+    }
     .search {
         display: flex;
+        justify-content: flex-end;
     }
 
     .search input {

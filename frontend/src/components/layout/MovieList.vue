@@ -10,6 +10,9 @@
             :id="movie._id"
         ></movie-cart>
     </div>
+    <div class="no-results" v-if="!filteredMovies || filteredMovies.length === 0">
+        No movies found.
+    </div>
 </template>
 
 <script>
@@ -65,11 +68,11 @@
                     const recent = this.movies.filter((m) =>
                         moment(m.startDate).isBefore(timelimit)
                     );
-                    this.filteredMovies = recent.slice(0, 7);
+                    this.filteredMovies = recent.slice(0, 10);
                     //console.log("filtered recent");
                 } else if (this.filter === "popular") {
                     const popular = this.movies.filter((m) => m.rating > 8);
-                    this.filteredMovies = popular.slice(0, 7);
+                    this.filteredMovies = popular.slice(0, 10);
                 } else if (this.filter === "random") {
                     // Shuffle array
                     const shuffled = this.movies.sort(
@@ -97,5 +100,13 @@
         flex-wrap: wrap;
         max-width: 85%;
         margin: 1rem auto;
+    }
+
+    .no-results {
+        display: flex;
+        align-items: center;
+        min-height: 65vh;
+        color: rgba(255, 255, 255, 0.822);
+        justify-content: center;
     }
 </style>

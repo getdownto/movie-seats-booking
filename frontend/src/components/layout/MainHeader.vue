@@ -5,9 +5,7 @@
                 <div class="logo">Book a seat</div>
                 <ul>
                     <li><router-link to="/">Home</router-link></li>
-                    <li><a href="#">On Screen</a></li>
-                    <li><a href="#">Popular</a></li>
-                    <li><a href="#">Coming Soon</a></li>
+                    <li><router-link to="/all">Movies</router-link></li>
                 </ul>
                 <base-btn link to="/login" v-if="!isAuth">Login</base-btn>
                 <router-link to="/user/profile" v-else-if="isAdmin"
