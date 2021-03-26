@@ -6,7 +6,7 @@
         </div>
         <div class="seats-info">
             <p>Total price:</p>
-            <h3 class="number">{{ totalPrice }}</h3>
+            <h3 class="number">{{ totalPrice.toFixed(2) }}</h3>
         </div>
         <div class="container">
             <p class="screen-caption">Screen</p>
@@ -70,7 +70,10 @@
         methods: {
             selectSeat(index) {
                 this.warning = false;
-                if (!this.selectedSeats.includes(index)) {
+                const row = index.split('-')[0]
+                const seat = index.split('-')[1]
+
+                if (!this.selectedSeats.includes(index) && this.seats[row][seat] !== 1) {
                     // this.currentSelection = index;
                     this.selectedSeats.push(index);
                 } else {
@@ -90,7 +93,7 @@
             },
         },
         // mounted() {
-        //     console.log(this.props && this.props.seats);
+        //     console.log(this.seats && this.seats);
         // },
     };
 </script>
