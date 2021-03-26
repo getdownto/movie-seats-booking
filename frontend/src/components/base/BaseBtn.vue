@@ -51,6 +51,7 @@ a:active,
 button:hover,
 button:active {
   transform: scale(0.95);
+  color: white;
 }
 
 .flat {
@@ -84,5 +85,6 @@ color: rgb(37, 166, 218);
 .outline-blue:hover,
 .outline-blue:active {
   transform: scale(0.95);
+  color: #e95d6b;
 }
 </style>

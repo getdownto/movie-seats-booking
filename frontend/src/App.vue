@@ -21,10 +21,6 @@
                 });
             },
         },
-        // beforeMount() {
-        //     this.getAuth()
-        //     console.log('BM');
-        // },
         created() {
             this.getAuth()
             //console.log('C');
