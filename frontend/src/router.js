@@ -8,6 +8,7 @@ import SearchPage from './pages/SearchPage'
 import DetailsPage from './pages/DetailsPage'
 import ProfilePage from './pages/ProfilePage'
 import EditMovie from './pages/EditMovie'
+import NotFound  from './pages/NotFound'
 import store from './store/index'
 
 const router = createRouter({
@@ -21,8 +22,14 @@ const router = createRouter({
         { path: '/movie/create', component: CreateMovie},
         { path: '/movie/edit/:id', component: EditMovie},
         { path: '/user/profile', component: ProfilePage},
+        { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound},
     ]
 })
+
+router.resolve({
+    name: 'not-found',
+    params: { pathMatch: ['not', 'found'] },
+  }).href
 
 router.beforeEach((to, from, next) => {
     const isLoggedIn = store.getters.isLoggedIn && store.getters.isLoggedIn;

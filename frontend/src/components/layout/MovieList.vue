@@ -10,7 +10,8 @@
             :id="movie._id"
         ></movie-cart>
     </div>
-    <div class="no-results" v-if="!filteredMovies || filteredMovies.length === 0">
+    <base-spinner v-if="loading"></base-spinner>
+    <div class="no-results" v-if="!loading && (!filteredMovies || filteredMovies.length === 0)">
         No movies found.
     </div>
 </template>
@@ -18,9 +19,10 @@
 <script>
     import MovieCart from "../movies/MovieCart.vue";
     import movieService from "../../services/movie-service";
+     import BaseSpinner from "../base/BaseSpinner";
     import moment from "moment";
     export default {
-        components: { MovieCart },
+        components: { MovieCart, BaseSpinner },
         props: {
             filter: {
                 type: String,
